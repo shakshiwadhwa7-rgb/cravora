@@ -1,0 +1,2178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> | Cravora Food Delivered</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+/* ==================== CSS RESET & VARIABLES ==================== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --primary: #ff6b35;
+    --primary-dark: #e55a2b;
+    --secondary: #2d3436;
+    --accent: #00b894;
+    --light: #f8f9fa;
+    --dark: #1a1a2e;
+    --gray: #636e72;
+    --white: #ffffff;
+    --shadow: 0 4px 20px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+    --radius: 12px;
+    --radius-lg: 20px;
+    --transition: all 0.3s ease;
+    --card-min: 260px;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: var(--secondary); background: var(--white); overflow-x: hidden; }
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; height: auto; display: block; }
+button { cursor: pointer; border: none; outline: none; font-family: inherit; }
+
+/* ==================== UTILITY ==================== */
+.container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 80px 0; }
+.section-title { text-align: center; margin-bottom: 50px; }
+.section-title h2 { font-size: clamp(1.6rem, 3vw, 2.5rem); color: var(--dark); margin-bottom: 15px; position: relative; display: inline-block; }
+.section-title h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background: var(--primary); border-radius: 2px; }
+.section-title p { color: var(--gray); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 28px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; transition: var(--transition); white-space: nowrap; }
+.btn-primary { background: var(--primary); color: var(--white); }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,107,53,0.4); }
+.btn-secondary { background: var(--white); color: var(--primary); border: 2px solid var(--primary); }
+.btn-secondary:hover { background: var(--primary); color: var(--white); }
+
+/* ==================== HEADER ==================== */
+header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: transparent; transition: var(--transition); }
+header.scrolled { background: var(--white); box-shadow: var(--shadow); }
+header.scrolled .nav-link { color: var(--secondary); }
+header.scrolled .logo { color: var(--primary); }
+header.scrolled .cart-icon { color: var(--secondary); }
+header.scrolled .menu-toggle span { background: var(--secondary); }
+
+nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; gap: 20px; }
+.logo { font-size: 2.1rem; font-weight: 800; color: var(--white); transition: var(--transition); letter-spacing: -0.5px; }
+.logo span { color: var(--primary); }
+.nav-links { display: flex; align-items: center; gap: 36px; }
+.nav-link { color: var(--white); font-weight: 500; position: relative; transition: var(--transition); }
+.nav-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary); transition: var(--transition); }
+.nav-link:hover::after { width: 100%; }
+.nav-link:hover { color: var(--primary); }
+.nav-actions { display: flex; align-items: center; gap: 18px; }
+.cart-icon { position: relative; font-size: 1.3rem; color: var(--white); transition: var(--transition); cursor: pointer; }
+.cart-icon:hover { color: var(--primary); }
+.cart-count { position: absolute; top: -8px; right: -8px; background: var(--primary); color: var(--white); font-size: 0.65rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.cart-count.bump { animation: bump 0.3s ease; }
+@keyframes bump { 0%,100%{transform:scale(1)} 50%{transform:scale(1.4)} }
+.menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; padding: 5px; }
+.menu-toggle span { width: 25px; height: 3px; background: var(--white); border-radius: 2px; transition: var(--transition); }
+
+/* ==================== HERO ==================== */
+.hero { min-height: 100vh; background: linear-gradient(135deg,rgba(26,26,46,0.92),rgba(45,52,54,0.85)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920') center/cover no-repeat; display: flex; align-items: center; padding-top: 80px; }
+.hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.hero-text h1 { font-size: clamp(2rem, 5vw, 3.5rem); color: var(--white); line-height: 1.2; margin-bottom: 20px; }
+.hero-text h1 span { color: var(--primary); }
+.hero-text p { font-size: 1.15rem; color: rgba(255,255,255,0.8); margin-bottom: 30px; max-width: 500px; }
+.hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+.hero-stats { display: flex; gap: 36px; margin-top: 50px; flex-wrap: wrap; }
+.stat { text-align: center; }
+.stat h3 { font-size: 2.5rem; color: var(--primary); font-weight: 800; }
+.stat p { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+.hero-image { position: relative; display: flex; justify-content: center; }
+.hero-image img { width: 100%; max-width: 500px; aspect-ratio: 1/1; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); animation: float 3s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+.floating-card { position: absolute; background: var(--white); padding: 13px 18px; border-radius: var(--radius); box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 10px; animation: float 3s ease-in-out infinite; }
+.floating-card.card-1 { top: 20%; left: -20px; animation-delay: 0.5s; }
+.floating-card.card-2 { bottom: 20%; right: -20px; animation-delay: 1s; }
+.floating-card i { font-size: 1.4rem; color: var(--primary); }
+.floating-card span { font-weight: 600; color: var(--secondary); }
+
+/* ==================== CATEGORIES ==================== */
+.categories { background: var(--light); }
+.categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px; }
+.category-card { background: var(--white); padding: 24px 16px; border-radius: var(--radius); text-align: center; cursor: pointer; transition: var(--transition); border: 2px solid transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px; }
+.category-card:hover, .category-card.active { transform: translateY(-4px); border-color: var(--primary); box-shadow: var(--shadow); }
+.category-card.active { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+.category-card.active i, .category-card.active h4 { color: var(--white); }
+.category-card i { font-size: 2.2rem; color: var(--primary); margin-bottom: 12px; transition: var(--transition); }
+.category-card h4 { font-size: 0.9rem; color: var(--secondary); transition: var(--transition); }
+
+/* ==================== MENU ==================== */
+.menu-filters { display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+.filter-btn { padding: 9px 22px; border-radius: 50px; background: var(--light); color: var(--gray); font-weight: 500; transition: var(--transition); font-size: 0.9rem; }
+.filter-btn:hover, .filter-btn.active { background: var(--primary); color: var(--white); }
+
+/* ==================== SEARCH BAR ==================== */
+.menu-search-wrap { display: flex; justify-content: center; margin-bottom: 28px; }
+.menu-search { display: flex; align-items: center; background: var(--white); border: 2px solid #e0e0e0; border-radius: 50px; padding: 8px 20px; gap: 10px; width: 100%; max-width: 480px; transition: var(--transition); }
+.menu-search:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,107,53,0.12); }
+.menu-search i { color: var(--gray); font-size: 1rem; }
+.menu-search input { border: none; outline: none; flex: 1; font-size: 0.95rem; font-family: inherit; color: var(--secondary); background: transparent; }
+
+/* ==================== MENU GRID ==================== */
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr)); gap: 28px; }
+.menu-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); display: flex; flex-direction: column; cursor: pointer; }
+.menu-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+.menu-card.hidden { display: none; }
+.menu-card-image { position: relative; aspect-ratio: 16/10; overflow: hidden; flex-shrink: 0; }
+.menu-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.menu-card:hover .menu-card-image img { transform: scale(1.08); }
+.menu-badge { position: absolute; top: 12px; left: 12px; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; color: var(--white); letter-spacing: 0.5px; }
+.menu-badge.hot { background: #e74c3c; }
+.menu-badge.new { background: var(--accent); }
+.menu-badge.sale { background: var(--primary); }
+.menu-badge.popular { background: #8e44ad; }
+.menu-badge.veg { background: #27ae60; }
+.wishlist-btn { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%; background: var(--white); color: var(--secondary); display: flex; align-items: center; justify-content: center; transition: var(--transition); font-size: 0.95rem; }
+.wishlist-btn:hover, .wishlist-btn.active { background: #e74c3c; color: var(--white); }
+.menu-card-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+.menu-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+.menu-card-header h3 { font-size: 1.05rem; color: var(--dark); line-height: 1.3; }
+.menu-rating { display: flex; align-items: center; gap: 4px; color: #f39c12; font-size: 0.82rem; flex-shrink: 0; }
+.menu-rating span { color: var(--gray); }
+.menu-card-content .desc { color: var(--gray); font-size: 0.85rem; margin-bottom: 12px; flex-grow: 1; line-height: 1.5; }
+
+/* ==================== NUTRITION STRIP ==================== */
+.nutrition-strip { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.nutr-pill { background: #f0f4ff; color: #3a5bd9; font-size: 0.7rem; font-weight: 600; padding: 3px 8px; border-radius: 20px; display: flex; align-items: center; gap: 3px; }
+.nutr-pill.cal { background: #fff0ea; color: #c04a10; }
+.nutr-pill.prot { background: #eafff4; color: #0a7a3e; }
+.nutr-pill.carb { background: #fff8e1; color: #9a6000; }
+.nutr-pill.fat { background: #f5eeff; color: #6b2fa0; }
+.nutr-pill.fiber { background: #e8f5e9; color: #2e7d32; }
+
+/* ==================== MACRO BAR ==================== */
+.macro-bar-wrap { margin-bottom: 14px; }
+.macro-bar-label { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--gray); margin-bottom: 4px; }
+.macro-bar-track { background: #f0f0f0; border-radius: 4px; height: 6px; display: flex; overflow: hidden; gap: 2px; }
+.macro-seg { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+.macro-seg.prot { background: #27ae60; }
+.macro-seg.carb { background: #f39c12; }
+.macro-seg.fat { background: #9b59b6; }
+
+.menu-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--light); }
+.menu-price { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+.menu-price .old-price { font-size: 0.85rem; color: var(--gray); text-decoration: line-through; margin-left: 7px; font-weight: 500; }
+.add-to-cart { width: 42px; height: 42px; border-radius: 50%; background: var(--primary); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: var(--transition); flex-shrink: 0; }
+.add-to-cart:hover { background: var(--primary-dark); transform: rotate(90deg); }
+
+/* ==================== LOADING STATE ==================== */
+.menu-loading { grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--gray); }
+.menu-loading .spinner { width: 48px; height: 48px; border: 4px solid var(--light); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 20px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 8px; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ==================== SPECIALS ==================== */
+.specials { background: linear-gradient(135deg, var(--dark), var(--secondary)); position: relative; overflow: hidden; }
+.specials::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,107,53,0.15), transparent); border-radius: 50%; }
+.specials .section-title h2, .specials .section-title p { color: var(--white); }
+.specials-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; }
+.specials-image { position: relative; }
+.specials-image img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); }
+.discount-badge { position: absolute; top: -20px; right: -20px; width: 90px; height: 90px; background: var(--primary); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--white); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+.discount-badge span:first-child { font-size: 1.6rem; font-weight: 800; }
+.discount-badge span:last-child { font-size: 0.75rem; }
+.specials-details h3 { font-size: 1.8rem; color: var(--white); margin-bottom: 16px; }
+.specials-details p { color: rgba(255,255,255,0.8); margin-bottom: 26px; }
+.countdown { display: flex; gap: 16px; margin-bottom: 26px; flex-wrap: wrap; }
+.countdown-item { text-align: center; background: rgba(255,255,255,0.1); padding: 14px 18px; border-radius: var(--radius); min-width: 75px; }
+.countdown-item span:first-child { display: block; font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+.countdown-item span:last-child { font-size: 0.75rem; color: rgba(255,255,255,0.7); text-transform: uppercase; }
+
+/* ==================== HOW IT WORKS ==================== */
+.how-it-works { background: var(--light); }
+.steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 36px; }
+.step-card { text-align: center; padding: 48px 26px 36px; background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow); position: relative; transition: var(--transition); display: flex; flex-direction: column; align-items: center; }
+.step-card:hover { transform: translateY(-8px); }
+.step-number { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); width: 36px; height: 36px; background: var(--primary); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+.step-icon { width: 72px; height: 72px; margin-bottom: 18px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.step-icon i { font-size: 1.8rem; color: var(--white); }
+.step-card h3 { margin-bottom: 12px; color: var(--dark); }
+.step-card p { color: var(--gray); font-size: 0.9rem; }
+
+/* ==================== TESTIMONIALS ==================== */
+.testimonials-slider { max-width: 780px; margin: 0 auto; position: relative; min-height: 350px; }
+.testimonial-card { background: var(--white); padding: 36px; border-radius: var(--radius-lg); box-shadow: var(--shadow); text-align: center; display: none; }
+.testimonial-card.active { display: block; animation: fadeIn 0.5s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.testimonial-card img { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 16px; border: 4px solid var(--primary); object-fit: cover; }
+.testimonial-card .quote { font-size: 1rem; color: var(--gray); font-style: italic; margin-bottom: 18px; line-height: 1.8; }
+.testimonial-card .quote::before { content: '"'; font-size: 2.5rem; color: var(--primary); line-height: 0; vertical-align: middle; }
+.testimonial-card h4 { color: var(--dark); margin-bottom: 4px; }
+.testimonial-card span { color: var(--primary); font-size: 0.85rem; }
+.testimonial-stars { color: #f39c12; margin-bottom: 12px; }
+.slider-controls { display: flex; justify-content: center; gap: 14px; margin-top: 28px; }
+.slider-btn { width: 46px; height: 46px; border-radius: 50%; background: var(--light); color: var(--secondary); display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+.slider-btn:hover { background: var(--primary); color: var(--white); }
+.slider-dots { display: flex; justify-content: center; gap: 10px; margin-top: 18px; }
+.dot { width: 11px; height: 11px; border-radius: 50%; background: var(--light); cursor: pointer; transition: var(--transition); border: 2px solid transparent; }
+.dot.active { background: var(--primary); transform: scale(1.2); }
+
+/* ==================== CONTACT ==================== */
+.contact { background: var(--light); }
+.contact-content { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+.contact-info h3 { font-size: 1.7rem; margin-bottom: 18px; color: var(--dark); }
+.contact-info > p { color: var(--gray); margin-bottom: 26px; }
+.info-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 22px; }
+.info-item i { width: 46px; height: 46px; background: var(--primary); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.info-item div h4 { color: var(--dark); margin-bottom: 4px; font-size: 0.95rem; }
+.info-item div p { margin: 0; color: var(--gray); font-size: 0.9rem; }
+.social-links { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.social-link { width: 42px; height: 42px; border-radius: 50%; background: var(--white); color: var(--secondary); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: var(--transition); box-shadow: var(--shadow); }
+.social-link:hover { background: var(--primary); color: var(--white); transform: translateY(-4px); }
+.contact-form { background: var(--white); padding: 36px; border-radius: var(--radius-lg); box-shadow: var(--shadow); }
+.contact-form h3 { font-size: 1.4rem; margin-bottom: 22px; color: var(--dark); }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; margin-bottom: 7px; font-weight: 500; font-size: 0.9rem; color: var(--secondary); }
+.form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 16px; border: 2px solid var(--light); border-radius: var(--radius); font-size: 0.95rem; transition: var(--transition); font-family: inherit; background: var(--white); color: var(--secondary); }
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
+.form-group input.error, .form-group textarea.error { border-color: #e74c3c; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.form-group textarea { min-height: 110px; resize: vertical; }
+.contact-form .btn { width: 100%; }
+
+/* ==================== NEWSLETTER ==================== */
+.newsletter { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 56px 0; }
+.newsletter-content { display: flex; align-items: center; justify-content: space-between; gap: 36px; flex-wrap: wrap; }
+.newsletter-text h3 { font-size: 1.7rem; color: var(--white); margin-bottom: 8px; }
+.newsletter-text p { color: rgba(255,255,255,0.9); }
+.newsletter-form { display: flex; gap: 12px; flex: 1; max-width: 480px; min-width: 260px; }
+.newsletter-form input { flex: 1; padding: 14px 22px; border: none; border-radius: 50px; font-size: 0.95rem; min-width: 0; }
+.newsletter-form input:focus { outline: none; }
+.newsletter-form .btn { background: var(--dark); flex-shrink: 0; }
+.newsletter-form .btn:hover { background: var(--secondary); }
+
+/* ==================== FOOTER ==================== */
+footer { background: var(--dark); color: var(--white); padding: 72px 0 28px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.footer-about .logo { margin-bottom: 18px; display: inline-block; }
+.footer-about p { color: rgba(255,255,255,0.65); margin-bottom: 18px; font-size: 0.9rem; }
+.footer-column h4 { font-size: 1.1rem; margin-bottom: 22px; position: relative; padding-bottom: 10px; }
+.footer-column h4::after { content: ''; position: absolute; bottom: 0; left: 0; width: 36px; height: 3px; background: var(--primary); }
+.footer-links li { margin-bottom: 10px; }
+.footer-links a { color: rgba(255,255,255,0.65); transition: var(--transition); font-size: 0.9rem; }
+.footer-links a:hover { color: var(--primary); padding-left: 5px; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 26px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 18px; }
+.footer-bottom p { color: rgba(255,255,255,0.65); font-size: 0.9rem; }
+.payment-methods { display: flex; gap: 14px; flex-wrap: wrap; }
+.payment-methods i { font-size: 1.8rem; color: rgba(255,255,255,0.65); transition: var(--transition); cursor: pointer; }
+.payment-methods i:hover { color: var(--white); }
+
+/* ==================== CART SIDEBAR ==================== */
+.cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1999; opacity: 0; visibility: hidden; transition: var(--transition); }
+.cart-overlay.active { opacity: 1; visibility: visible; }
+.cart-sidebar { position: fixed; top: 0; right: -420px; width: 400px; max-width: 100%; height: 100%; background: var(--white); z-index: 2000; box-shadow: var(--shadow-lg); transition: right 0.4s ease; display: flex; flex-direction: column; }
+.cart-sidebar.active { right: 0; }
+.cart-header { padding: 18px 20px; border-bottom: 1px solid var(--light); display: flex; justify-content: space-between; align-items: center; }
+.cart-header h3 { font-size: 1.2rem; color: var(--dark); }
+.close-cart { background: none; font-size: 1.4rem; color: var(--gray); transition: var(--transition); }
+.close-cart:hover { color: var(--primary); }
+.cart-items { flex: 1; overflow-y: auto; padding: 18px; }
+.cart-item { display: flex; gap: 13px; padding: 13px 0; border-bottom: 1px solid var(--light); }
+.cart-item img { width: 72px; height: 72px; object-fit: cover; border-radius: var(--radius); flex-shrink: 0; }
+.cart-item-details { flex: 1; min-width: 0; }
+.cart-item-details h4 { font-size: 0.95rem; color: var(--dark); margin-bottom: 4px; }
+.cart-item-details .price { color: var(--primary); font-weight: 600; font-size: 0.95rem; }
+.cart-item-quantity { display: flex; align-items: center; gap: 9px; margin-top: 9px; }
+.qty-btn { width: 26px; height: 26px; border-radius: 50%; background: var(--light); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: var(--transition); }
+.qty-btn:hover { background: var(--primary); color: var(--white); }
+.cart-item-quantity span { font-weight: 600; min-width: 18px; text-align: center; font-size: 0.95rem; }
+.remove-item { background: none; color: #e74c3c; font-size: 1rem; transition: var(--transition); align-self: flex-start; }
+.remove-item:hover { transform: scale(1.2); }
+.cart-footer { padding: 18px 20px; border-top: 1px solid var(--light); }
+.cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.cart-total span:first-child { font-size: 1rem; color: var(--gray); }
+.cart-total span:last-child { font-size: 1.4rem; font-weight: 700; color: var(--dark); }
+.checkout-btn { width: 100%; padding: 15px; }
+.empty-cart { text-align: center; padding: 40px 20px; color: var(--gray); }
+.empty-cart i { font-size: 3.5rem; margin-bottom: 16px; color: var(--light); display: block; }
+
+/* ==================== MODAL ==================== */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2500; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: var(--transition); padding: 20px; }
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal { background: var(--white); border-radius: var(--radius-lg); max-width: 540px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; transform: scale(0.92); transition: var(--transition); }
+.modal-overlay.active .modal { transform: scale(1); }
+.modal-close { position: absolute; top: 13px; right: 13px; width: 34px; height: 34px; border-radius: 50%; background: var(--light); color: var(--secondary); display: flex; align-items: center; justify-content: center; z-index: 1; transition: var(--transition); }
+.modal-close:hover { background: var(--primary); color: var(--white); }
+.modal-body { padding: 26px; }
+.modal-body img { width: 100%; aspect-ratio: 16/10; object-fit: cover; border-radius: var(--radius); margin-bottom: 18px; }
+.modal-body h3 { font-size: 1.5rem; color: var(--dark); margin-bottom: 8px; }
+.modal-price { font-size: 1.35rem; color: var(--primary); font-weight: 700; margin-bottom: 12px; }
+.modal-desc { color: var(--gray); margin-bottom: 18px; font-size: 0.9rem; line-height: 1.6; }
+.modal-body .btn { width: 100%; margin-top: 10px; }
+
+/* ==================== NUTRITION MODAL SECTION ==================== */
+.modal-nutrition { background: var(--light); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; }
+.modal-nutrition h4 { font-size: 0.9rem; font-weight: 700; color: var(--dark); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.nutrition-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.nutr-item { text-align: center; background: var(--white); border-radius: 8px; padding: 10px 6px; }
+.nutr-item .nutr-val { font-size: 1.1rem; font-weight: 700; color: var(--dark); }
+.nutr-item .nutr-lbl { font-size: 0.7rem; color: var(--gray); margin-top: 2px; }
+.nutr-item.cal .nutr-val { color: #c04a10; }
+.nutr-item.prot .nutr-val { color: #0a7a3e; }
+.nutr-item.carb .nutr-val { color: #9a6000; }
+.nutr-item.fat .nutr-val { color: #6b2fa0; }
+.nutr-item.fiber .nutr-val { color: #2e7d32; }
+.nutr-item.sugar .nutr-val { color: #c0392b; }
+
+/* ==================== MISC UI ==================== */
+.back-to-top { position: fixed; bottom: 28px; right: 28px; width: 46px; height: 46px; background: var(--primary); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; z-index: 999; opacity: 0; visibility: hidden; transition: var(--transition); box-shadow: var(--shadow); }
+.back-to-top.active { opacity: 1; visibility: visible; }
+.back-to-top:hover { background: var(--primary-dark); transform: translateY(-4px); }
+.toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--dark); color: var(--white); padding: 13px 26px; border-radius: 50px; display: flex; align-items: center; gap: 9px; z-index: 3000; opacity: 0; transition: var(--transition); max-width: 90vw; font-size: 0.9rem; }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast i { color: var(--accent); }
+.toast.error i { color: #e74c3c; }
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ==================== EMPTY MENU ==================== */
+#menuEmpty { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: var(--gray); }
+#menuEmpty i { font-size: 2.8rem; margin-bottom: 14px; display: block; color: #ddd; }
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1100px) {
+    .hero-content { grid-template-columns: 1fr; text-align: center; gap: 36px; }
+    .hero-text { order: 1; }
+    .hero-image { order: 0; }
+    .hero-text p { margin: 0 auto 26px; }
+    .hero-buttons, .hero-stats { justify-content: center; }
+    .specials-content { grid-template-columns: 1fr; text-align: center; gap: 36px; }
+    .specials-image { order: 0; max-width: 480px; margin: 0 auto; }
+    .countdown { justify-content: center; }
+    .contact-content { grid-template-columns: 1fr; gap: 36px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+}
+
+@media (max-width: 768px) {
+    :root { --card-min: 240px; }
+    .section { padding: 52px 0; }
+    .section-title { margin-bottom: 36px; }
+    .nav-links { position: fixed; top: 0; left: -100%; width: 78%; max-width: 290px; height: 100vh; background: var(--white); flex-direction: column; justify-content: center; gap: 28px; transition: left 0.3s ease; z-index: 1001; box-shadow: var(--shadow-lg); }
+    .nav-links.active { left: 0; }
+    .nav-link { color: var(--secondary); font-size: 1.1rem; }
+    .menu-toggle { display: flex; }
+    .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+    .btn-nav { display: none; }
+    .hero-stats { gap: 18px; }
+    .stat h3 { font-size: 2rem; }
+    .floating-card { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .newsletter-content { text-align: center; flex-direction: column; }
+    .newsletter-form { flex-direction: column; width: 100%; max-width: 380px; }
+    .newsletter-form .btn { width: 100%; }
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .menu-grid { gap: 18px; }
+    .categories-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
+    .category-card { padding: 18px 12px; min-height: 104px; }
+    .category-card i { font-size: 1.8rem; margin-bottom: 10px; }
+    .testimonial-card { padding: 26px 18px; }
+    .discount-badge { width: 76px; height: 76px; top: -12px; right: -10px; }
+    .discount-badge span:first-child { font-size: 1.3rem; }
+    .nutrition-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+    .container { padding: 0 14px; }
+    :root { --card-min: 100%; }
+    .btn { padding: 11px 22px; font-size: 0.9rem; }
+    .cart-sidebar { width: 100%; }
+    .section-title h2 { font-size: 1.6rem; }
+    .nav-actions { gap: 13px; }
+    .logo { font-size: 1.75rem; }
+    .menu-search { max-width: 100%; }
+    .nutrition-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ==================== AUTH MODAL ==================== */
+.auth-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 9000; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+.auth-box { background: #fff; border-radius: 20px; width: 100%; max-width: 450px; box-shadow: 0 24px 60px rgba(0,0,0,0.25); overflow: hidden; animation: authSlideIn 0.4s cubic-bezier(0.22,1,0.36,1); }
+@keyframes authSlideIn { from{opacity:0;transform:translateY(28px) scale(0.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+.auth-header { background: linear-gradient(135deg, #ff6b35, #e55a2b); padding: 26px 28px 22px; text-align: center; color: #fff; }
+.auth-header .auth-logo { font-size: 1.7rem; font-weight: 800; margin-bottom: 5px; }
+.auth-header .auth-logo span { color: rgba(255,255,255,0.65); }
+.auth-header p { font-size: 0.88rem; opacity: 0.85; margin: 0; }
+.auth-tabs { display: flex; border-bottom: 2px solid #f0f0f0; background: #fafafa; }
+.auth-tab { flex: 1; padding: 13px; text-align: center; font-weight: 600; font-size: 0.92rem; cursor: pointer; color: #636e72; border: none; background: none; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+.auth-tab.active { color: #ff6b35; border-bottom-color: #ff6b35; background: #fff; }
+.auth-body { padding: 26px 28px 28px; }
+.auth-panel { display: none; }
+.auth-panel.active { display: block; }
+.auth-field { margin-bottom: 16px; }
+.auth-field label { display: block; font-size: 0.83rem; font-weight: 600; color: #2d3436; margin-bottom: 5px; }
+.auth-field label span.req { color: #ff6b35; margin-left: 2px; }
+.auth-input-wrap { position: relative; }
+.auth-input-wrap .field-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: #b2bec3; font-size: 0.95rem; pointer-events: none; }
+.auth-input-wrap input { width: 100%; padding: 11px 13px 11px 38px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 0.92rem; font-family: inherit; outline: none; transition: border-color 0.2s, box-shadow 0.2s; color: #2d3436; background: #fff; }
+.auth-input-wrap input:focus { border-color: #ff6b35; box-shadow: 0 0 0 3px rgba(255,107,53,0.12); }
+.auth-input-wrap input.input-error { border-color: #e74c3c; }
+.auth-input-wrap input.input-ok { border-color: #00b894; }
+.auth-hint { font-size: 0.72rem; color: #b2bec3; margin-top: 3px; }
+.auth-err { font-size: 0.72rem; color: #e74c3c; margin-top: 3px; display: none; }
+.auth-err.visible { display: block; }
+.strength-bar { height: 4px; border-radius: 2px; background: #f0f0f0; margin-top: 5px; overflow: hidden; }
+.strength-fill { height: 100%; border-radius: 2px; transition: width 0.3s, background 0.3s; width: 0; }
+.strength-label { font-size: 0.7rem; margin-top: 3px; font-weight: 600; }
+.auth-submit { width: 100%; padding: 13px; background: #ff6b35; color: #fff; border: none; border-radius: 50px; font-size: 0.97rem; font-weight: 700; cursor: pointer; margin-top: 6px; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; font-family: inherit; }
+.auth-submit:hover { background: #e55a2b; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(255,107,53,0.35); }
+.auth-switch { text-align: center; margin-top: 16px; font-size: 0.83rem; color: #636e72; }
+.auth-switch button { background: none; border: none; color: #ff6b35; font-weight: 700; cursor: pointer; font-family: inherit; font-size: inherit; padding: 0; }
+.auth-skip { display: block; text-align: center; margin-top: 12px; font-size: 0.78rem; color: #b2bec3; cursor: pointer; background: none; border: none; font-family: inherit; width: 100%; }
+.auth-skip:hover { color: #636e72; }
+
+/* ==================== DARK MODE TOGGLE BUTTON ==================== */
+.dark-mode-toggle { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.15); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: var(--transition); border: none; cursor: pointer; flex-shrink: 0; }
+.dark-mode-toggle:hover { background: var(--primary); color: #fff; transform: rotate(20deg); }
+header.scrolled .dark-mode-toggle { background: var(--light); color: var(--secondary); }
+body.dark-mode .dark-mode-toggle { background: rgba(255,255,255,0.1); color: #f0c040; }
+body.dark-mode header.scrolled .dark-mode-toggle { background: #2a2a3e; color: #f0c040; }
+
+/* ==================== DARK MODE ==================== */
+body.dark-mode { --secondary: #e0e0e0; --light: #1e1e2e; --dark: #f0f0f0; --gray: #a0aab4; --white: #121220; --shadow: 0 4px 20px rgba(0,0,0,0.4); --shadow-lg: 0 10px 40px rgba(0,0,0,0.5); color: #e0e0e0; background-color: #121220; }
+body.dark-mode header.scrolled { background: #1a1a2e; }
+body.dark-mode .nav-links { background: #1a1a2e; }
+body.dark-mode .category-card, body.dark-mode .menu-card, body.dark-mode .step-card, body.dark-mode .testimonial-card, body.dark-mode .contact-form, body.dark-mode .modal, body.dark-mode .cart-sidebar { background: #1e1e2e; }
+body.dark-mode .menu-card-header h3, body.dark-mode .step-card h3, body.dark-mode .contact-form h3, body.dark-mode .modal-body h3, body.dark-mode .cart-item-details h4, body.dark-mode .section-title h2, body.dark-mode .contact-info h3, body.dark-mode .contact-info h4, body.dark-mode .about-text h3 { color: #f0f0f0; }
+body.dark-mode .menu-search { background: #1e1e2e; border-color: #333; }
+body.dark-mode .menu-search input { color: #e0e0e0; background: transparent; }
+body.dark-mode .filter-btn { background: #2a2a3e; color: #a0aab4; }
+body.dark-mode .form-group input, body.dark-mode .form-group select, body.dark-mode .form-group textarea { background: #2a2a3e; border-color: #444; color: #e0e0e0; }
+body.dark-mode .modal-nutrition { background: #2a2a3e; }
+body.dark-mode .nutr-item { background: #1e1e2e; }
+body.dark-mode .cart-header, body.dark-mode .cart-footer, body.dark-mode .cart-item, body.dark-mode .menu-card-footer { border-color: #333; }
+body.dark-mode .qty-btn { background: #2a2a3e; color: #e0e0e0; }
+body.dark-mode .modal-close { background: #2a2a3e; color: #e0e0e0; }
+body.dark-mode footer { background: #0d0d1a; }
+body.dark-mode .footer-bottom { border-color: #333; }
+body.dark-mode .macro-bar-track { background: #2a2a3e; }
+body.dark-mode .floating-card { background: #1e1e2e; }
+body.dark-mode .floating-card span { color: #e0e0e0; }
+body.dark-mode .skeleton { background: linear-gradient(90deg,#2a2a3e 25%,#333355 50%,#2a2a3e 75%); background-size: 200% 100%; }
+body.dark-mode .nutr-pill { background: #1a2050; }
+body.dark-mode .nutr-pill.cal { background: #3a1a10; }
+body.dark-mode .nutr-pill.prot { background: #0a2e1a; }
+body.dark-mode .nutr-pill.carb { background: #2e2500; }
+body.dark-mode .nutr-pill.fat { background: #1e0e35; }
+/* ==================== ANIMATED BACKGROUND ==================== */
+.food-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: -1;
+    will-change: transform, opacity;
+    user-select: none;
+    filter: blur(0.5px);
+}
+.glow-ring {
+    position: fixed;
+    pointer-events: none;
+    z-index: -1;
+    border-radius: 50%;
+    will-change: transform, opacity;
+}
+
+/* ==================== BUILD YOUR MEAL ==================== */
+.build-meal { background: var(--light); }
+.build-choice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; max-width: 900px; margin: 0 auto; }
+.build-choice-card { background: var(--white); border-radius: var(--radius-lg); padding: 40px 28px; text-align: center; box-shadow: var(--shadow); transition: var(--transition); border: 2px solid transparent; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.build-choice-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+.build-choice-icon { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3); }
+.build-choice-card[data-build="salad"] .build-choice-icon { background: linear-gradient(135deg, #27ae60, #00b894); box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3); }
+.build-choice-card h3 { color: var(--dark); font-size: 1.3rem; margin: 0; }
+.build-choice-card p { color: var(--gray); font-size: 0.93rem; max-width: 320px; margin: 0; }
+.build-start-btn { margin-top: 8px; }
+
+/* Builder panel */
+.builder-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55); z-index: 1500; opacity: 0; visibility: hidden; transition: var(--transition); backdrop-filter: blur(3px); }
+.builder-overlay.active { opacity: 1; visibility: visible; }
+.builder-panel { position: fixed; top: 0; right: 0; width: 100%; max-width: 900px; height: 100vh; background: var(--white); z-index: 1501; box-shadow: -10px 0 40px rgba(0,0,0,0.25); transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); display: flex; flex-direction: column; overflow: hidden; }
+.builder-panel.active { transform: translateX(0); }
+.builder-header { padding: 22px 26px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--white); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-shrink: 0; }
+.builder-header h3 { margin: 0; font-size: 1.35rem; color: var(--white); }
+.builder-sub { margin: 4px 0 0; font-size: 0.85rem; color: rgba(255,255,255,0.85); }
+.builder-close { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.2); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: var(--transition); }
+.builder-close:hover { background: rgba(255,255,255,0.35); transform: rotate(90deg); }
+.builder-body { flex: 1; overflow: hidden; display: grid; grid-template-columns: 1fr 340px; min-height: 0; }
+.builder-left { overflow-y: auto; padding: 24px 26px; background: var(--white); }
+.builder-right { border-left: 1px solid #eee; background: var(--light); padding: 24px 22px; overflow-y: auto; }
+
+/* Builder steps & chips */
+.builder-step { margin-bottom: 26px; }
+.builder-step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.builder-step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--primary); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+.builder-step-title { font-size: 1.05rem; color: var(--dark); font-weight: 600; margin: 0; }
+.builder-step-hint { font-size: 0.78rem; color: var(--gray); margin-left: auto; font-weight: 500; }
+.builder-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.builder-chip { background: var(--white); border: 2px solid #e6e6e6; color: var(--secondary); border-radius: 50px; padding: 9px 16px; font-size: 0.88rem; font-weight: 500; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; user-select: none; }
+.builder-chip:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+.builder-chip.selected { background: var(--primary); border-color: var(--primary); color: var(--white); box-shadow: 0 4px 12px rgba(255,107,53,0.3); }
+.builder-chip .chip-price { font-size: 0.75rem; opacity: 0.8; }
+.builder-chip.selected .chip-price { opacity: 1; }
+.builder-chip .chip-check { width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,0.25); display: none; align-items: center; justify-content: center; font-size: 0.6rem; }
+.builder-chip.selected .chip-check { display: inline-flex; }
+
+/* Builder summary */
+.builder-summary-card { background: var(--white); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); position: sticky; top: 0; }
+.builder-summary-card h4 { color: var(--dark); margin: 0 0 12px; font-size: 1.05rem; }
+.builder-name-wrap { margin-bottom: 14px; }
+.builder-name-wrap input { width: 100%; padding: 9px 12px; border: 2px solid #e6e6e6; border-radius: 8px; font-size: 0.88rem; font-family: inherit; color: var(--secondary); background: var(--white); transition: var(--transition); }
+.builder-name-wrap input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,107,53,0.12); }
+.builder-selected { background: var(--light); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; max-height: 160px; overflow-y: auto; }
+.builder-selected .builder-empty { color: var(--gray); font-size: 0.85rem; text-align: center; margin: 8px 0; }
+.builder-selected-group { margin-bottom: 8px; font-size: 0.82rem; }
+.builder-selected-group:last-child { margin-bottom: 0; }
+.builder-selected-group strong { color: var(--gray); font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; }
+.builder-selected-group span { color: var(--secondary); display: block; margin-top: 2px; }
+.builder-nutr-wrap { margin-bottom: 14px; padding-top: 14px; border-top: 1px dashed #ddd; }
+.builder-nutr-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.85rem; font-weight: 600; color: var(--dark); }
+.builder-nutr-source { font-size: 0.7rem; color: var(--accent); font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+.builder-nutr-source.loading { color: var(--primary); }
+.builder-nutr-source.loading i { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.builder-nutr-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.bnutr-pill { padding: 8px 6px; border-radius: 8px; text-align: center; background: #f0f4ff; color: #3a5bd9; }
+.bnutr-pill.cal   { background: #fff0ea; color: #c04a10; }
+.bnutr-pill.prot  { background: #eafff4; color: #0a7a3e; }
+.bnutr-pill.carb  { background: #fff8e1; color: #9a6000; }
+.bnutr-pill.fat   { background: #f5eeff; color: #6b2fa0; }
+.bnutr-pill.fiber { background: #e8f5e9; color: #2e7d32; }
+.bnutr-pill span { display: block; font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; opacity: 0.85; }
+.bnutr-pill strong { display: block; font-size: 0.95rem; margin-top: 2px; }
+.builder-price-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-top: 1px dashed #ddd; margin-bottom: 12px; }
+.builder-price-row > span:first-child { color: var(--gray); font-size: 0.95rem; }
+.builder-price { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+.builder-add-btn { width: 100%; padding: 13px; font-size: 0.95rem; }
+.builder-add-btn:disabled { background: #c4c4c4; cursor: not-allowed; transform: none; box-shadow: none; }
+.builder-add-btn:disabled:hover { background: #c4c4c4; transform: none; box-shadow: none; }
+.builder-reset-btn { width: 100%; background: transparent; color: var(--gray); border: none; padding: 10px; margin-top: 6px; font-size: 0.85rem; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: inherit; }
+.builder-reset-btn:hover { color: var(--primary); }
+
+/* Builder dark mode */
+body.dark-mode .build-choice-card { background: #1e1e2e; }
+body.dark-mode .builder-panel { background: #121220; }
+body.dark-mode .builder-left { background: #121220; }
+body.dark-mode .builder-right { background: #0e0e18; border-left-color: #2a2a40; }
+body.dark-mode .builder-summary-card { background: #1e1e2e; }
+body.dark-mode .builder-chip { background: #1e1e2e; border-color: #2a2a40; color: var(--secondary); }
+body.dark-mode .builder-chip:hover { border-color: var(--primary); color: var(--primary); }
+body.dark-mode .builder-chip.selected { background: var(--primary); color: #fff; }
+body.dark-mode .builder-selected { background: #0e0e18; }
+body.dark-mode .builder-name-wrap input { background: #0e0e18; border-color: #2a2a40; color: var(--secondary); }
+body.dark-mode .builder-nutr-wrap, body.dark-mode .builder-price-row { border-top-color: #2a2a40; }
+body.dark-mode .bnutr-pill { background: rgba(255,255,255,0.06); color: var(--secondary); }
+
+/* Builder responsive */
+@media (max-width: 900px) {
+    .builder-body { grid-template-columns: 1fr; overflow-y: auto; }
+    .builder-right { border-left: none; border-top: 1px solid #eee; }
+    body.dark-mode .builder-right { border-top-color: #2a2a40; }
+    .builder-summary-card { position: static; }
+}
+@media (max-width: 600px) {
+    .builder-panel { max-width: 100%; }
+    .builder-left, .builder-right { padding: 18px 16px; }
+    .builder-header { padding: 18px 18px; }
+    .builder-header h3 { font-size: 1.15rem; }
+    .builder-nutr-grid { grid-template-columns: repeat(3, 1fr); }
+    .build-choice-card { padding: 30px 22px; }
+}
+/* ==================== MESSAGE WORD COUNTER ==================== */
+.form-group-message { position: relative; }
+.message-limit-note { font-size: 0.78rem; color: var(--gray); font-weight: 400; margin-left: 6px; }
+.word-counter { font-size: 0.78rem; color: var(--gray); text-align: right; margin-top: 6px; transition: var(--transition); font-weight: 500; }
+.word-counter.warning { color: #e67e22; }
+.word-counter.limit { color: #e74c3c; font-weight: 600; }
+body.dark-mode .word-counter { color: var(--gray); }
+
+/* ==================== CALORIE COUNTER (CART) ==================== */
+.cart-calories { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; margin-bottom: 10px; border-bottom: 1px dashed #e0e0e0; font-size: 0.92rem; color: var(--secondary); }
+.cart-calories span:first-child { display: inline-flex; align-items: center; gap: 8px; color: var(--gray); font-weight: 500; }
+.cart-calories span:first-child i { color: #ff6b35; font-size: 1rem; }
+.cart-calories strong { color: #ff6b35; font-size: 1.15rem; font-weight: 800; }
+.cart-item-calories { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; color: #c04a10; background: #fff0ea; padding: 2px 8px; border-radius: 10px; font-weight: 600; margin-top: 4px; width: fit-content; }
+.cart-item-calories i { font-size: 0.7rem; }
+body.dark-mode .cart-calories { border-bottom-color: #2a2a40; color: var(--secondary); }
+body.dark-mode .cart-item-calories { background: rgba(255, 107, 53, 0.15); color: #ff8c5a; }
+
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header id="header">
+    <div class="container">
+        <nav>
+            <a href="#" class="logo">Crav<span>ora</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#menu" class="nav-link">Menu</a></li>
+                <li><a href="#build" class="nav-link">Build Your Meal</a></li>
+                <li><a href="#specials" class="nav-link">Specials</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="cart-icon" id="cartIcon" role="button" tabindex="0" aria-label="Open cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon" id="darkModeIcon"></i>
+                </button>
+                <button class="btn btn-primary btn-nav" id="orderNowBtn">Order Now</button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Delicious Food <span>Delivered</span> To Your Door</h1>
+                <p>Experience the finest cuisine from the comfort of your home. Fresh ingredients, expert chefs, and lightning-fast delivery.</p>
+                <div class="hero-buttons">
+                    <a href="#menu" class="btn btn-primary"><i class="fas fa-utensils"></i> Explore Menu</a>
+                    <a href="#contact" class="btn btn-secondary"><i class="fas fa-phone"></i> Contact Us</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat"><h3 data-target="500">0</h3><p>Dishes</p></div>
+                    <div class="stat"><h3 data-target="50000">0</h3><p>Happy Customers</p></div>
+                    <div class="stat"><h3 data-target="4.9" data-decimal="true">0</h3><p>Rating</p></div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600" alt="Delicious Pizza">
+                <div class="floating-card card-1"><i class="fas fa-truck"></i><span>Free Delivery</span></div>
+                <div class="floating-card card-2"><i class="fas fa-clock"></i><span>30 Min Delivery</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories -->
+<section class="categories section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Browse Categories</h2>
+            <p>Find your favorite cuisine from our diverse menu categories</p>
+        </div>
+        <div class="categories-grid">
+            <div class="category-card active" data-category="all" tabindex="0"><i class="fas fa-th-large"></i><h4>All</h4></div>
+            <div class="category-card" data-category="pizza" tabindex="0"><i class="fas fa-pizza-slice"></i><h4>Pizza</h4></div>
+            <div class="category-card" data-category="burger" tabindex="0"><i class="fas fa-hamburger"></i><h4>Burgers</h4></div>
+            <div class="category-card" data-category="sushi" tabindex="0"><i class="fas fa-fish"></i><h4>Sushi</h4></div>
+            <div class="category-card" data-category="pasta" tabindex="0"><i class="fas fa-bread-slice"></i><h4>Pasta</h4></div>
+            <div class="category-card" data-category="dessert" tabindex="0"><i class="fas fa-ice-cream"></i><h4>Desserts</h4></div>
+            <div class="category-card" data-category="drinks" tabindex="0"><i class="fas fa-cocktail"></i><h4>Drinks</h4></div>
+            <div class="category-card" data-category="salad" tabindex="0"><i class="fas fa-leaf"></i><h4>Salads</h4></div>
+        </div>
+    </div>
+</section>
+
+<!-- Menu -->
+<section class="menu section" id="menu">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Menu</h2>
+            <p>Discover our chef's specially crafted dishes made with the finest ingredients</p>
+        </div>
+        <div class="menu-search-wrap">
+            <div class="menu-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search dishes, ingredients…" aria-label="Search menu">
+            </div>
+        </div>
+        <div class="menu-filters">
+            <button class="filter-btn active" data-filter="all">All Items</button>
+            <button class="filter-btn" data-filter="popular">Popular</button>
+            <button class="filter-btn" data-filter="new">New Arrivals</button>
+            <button class="filter-btn" data-filter="offers">Special Offers</button>
+            <button class="filter-btn" data-filter="veg">Vegetarian</button>
+        </div>
+        <div class="menu-grid" id="menuGrid">
+            <div class="menu-loading">
+                <div class="spinner"></div>
+                <p>Loading delicious menu…</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Build Your Meal -->
+<section class="build-meal section" id="build">
+    <div class="container">
+        <div class="section-title">
+            <h2>Build Your Meal</h2>
+            <p>Craft your own salad bowl or pizza with live USDA nutrition data</p>
+        </div>
+        <div class="build-choice-grid">
+            <div class="build-choice-card" data-build="salad">
+                <div class="build-choice-icon"><i class="fas fa-leaf"></i></div>
+                <h3>Custom Salad Bowl</h3>
+                <p>Pick a base, protein, veggies, dressing &amp; toppings. We'll show you the macros live.</p>
+                <button class="btn btn-primary build-start-btn" data-build-start="salad">
+                    <i class="fas fa-utensils"></i> Start Building
+                </button>
+            </div>
+            <div class="build-choice-card" data-build="pizza">
+                <div class="build-choice-icon"><i class="fas fa-pizza-slice"></i></div>
+                <h3>Custom Pizza</h3>
+                <p>Choose your crust, sauce, cheese &amp; toppings. Nutrition powered by USDA FoodData.</p>
+                <button class="btn btn-primary build-start-btn" data-build-start="pizza">
+                    <i class="fas fa-utensils"></i> Start Building
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Builder Modal -->
+<div class="builder-overlay" id="builderOverlay"></div>
+<aside class="builder-panel" id="builderPanel" role="dialog" aria-modal="true" aria-labelledby="builderTitle">
+    <div class="builder-header">
+        <div>
+            <h3 id="builderTitle">Build Your Meal</h3>
+            <p class="builder-sub" id="builderSub">Pick ingredients to customize</p>
+        </div>
+        <button class="builder-close" id="builderClose" aria-label="Close builder">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="builder-body">
+        <div class="builder-left">
+            <div id="builderSteps"></div>
+        </div>
+        <div class="builder-right">
+            <div class="builder-summary-card">
+                <h4>Your Creation</h4>
+                <div class="builder-name-wrap">
+                    <input type="text" id="builderName" placeholder="Name your meal (optional)" maxlength="40">
+                </div>
+                <div class="builder-selected" id="builderSelected">
+                    <p class="builder-empty">No items selected yet.</p>
+                </div>
+
+                <div class="builder-nutr-wrap">
+                    <div class="builder-nutr-header">
+                        <span>Nutrition</span>
+                        <span class="builder-nutr-source" id="builderNutrSource">
+                            <i class="fas fa-circle-info"></i> live USDA data
+                        </span>
+                    </div>
+                    <div class="builder-nutr-grid" id="builderNutrGrid">
+                        <div class="bnutr-pill cal"><span>Calories</span><strong>0</strong></div>
+                        <div class="bnutr-pill prot"><span>Protein</span><strong>0g</strong></div>
+                        <div class="bnutr-pill carb"><span>Carbs</span><strong>0g</strong></div>
+                        <div class="bnutr-pill fat"><span>Fat</span><strong>0g</strong></div>
+                        <div class="bnutr-pill fiber"><span>Fiber</span><strong>0g</strong></div>
+                    </div>
+                </div>
+
+                <div class="builder-price-row">
+                    <span>Total</span>
+                    <span class="builder-price" id="builderPrice">₹0</span>
+                </div>
+                <button class="btn btn-primary builder-add-btn" id="builderAddBtn" disabled>
+                    <i class="fas fa-cart-plus"></i> Add to Cart
+                </button>
+                <button class="builder-reset-btn" id="builderReset">
+                    <i class="fas fa-rotate-left"></i> Reset
+                </button>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- Specials -->
+<section class="specials section" id="specials">
+    <div class="container">
+        <div class="section-title"><h2>Today's Special</h2><p>Don't miss out on our limited-time offer</p></div>
+        <div class="specials-content">
+            <div class="specials-image">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600" alt="Special Burger">
+                <div class="discount-badge"><span>40%</span><span>OFF</span></div>
+            </div>
+            <div class="specials-details">
+                <h3>Ultimate Gourmet Burger Combo</h3>
+                <p>Indulge in our signature double patty burger with premium aged beef, melted cheddar, crispy bacon, fresh vegetables, and our secret sauce. Served with golden fries and a refreshing drink.</p>
+                <div class="countdown" id="countdown">
+                    <div class="countdown-item"><span id="hours">00</span><span>Hours</span></div>
+                    <div class="countdown-item"><span id="minutes">00</span><span>Minutes</span></div>
+                    <div class="countdown-item"><span id="seconds">00</span><span>Seconds</span></div>
+                </div>
+                <button class="btn btn-primary" id="specialOrderBtn"><i class="fas fa-shopping-cart"></i> Order Now — ₹549</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works section" id="about">
+    <div class="container">
+        <div class="section-title"><h2>How It Works</h2><p>Getting your favorite food has never been easier</p></div>
+        <div class="steps-grid">
+            <div class="step-card"><div class="step-number">1</div><div class="step-icon"><i class="fas fa-search"></i></div><h3>Choose Your Food</h3><p>Browse our extensive menu and select your favorite dishes from various cuisines.</p></div>
+            <div class="step-card"><div class="step-number">2</div><div class="step-icon"><i class="fas fa-credit-card"></i></div><h3>Place Your Order</h3><p>Add items to cart, customize your order, and complete secure checkout.</p></div>
+            <div class="step-card"><div class="step-number">3</div><div class="step-icon"><i class="fas fa-motorcycle"></i></div><h3>Fast Delivery</h3><p>Track your order in real-time as our delivery partner brings it to your doorstep.</p></div>
+            <div class="step-card"><div class="step-number">4</div><div class="step-icon"><i class="fas fa-utensils"></i></div><h3>Enjoy Your Meal</h3><p>Receive fresh, hot food and enjoy a delicious dining experience at home.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials section">
+    <div class="container">
+        <div class="section-title"><h2>What Our Customers Say</h2><p>Real reviews from real food lovers</p></div>
+        <div class="testimonials-slider" id="testimonialsSlider">
+            <div class="testimonial-card active">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" alt="Sarah Johnson">
+                <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="quote">The food quality is exceptional! Fast delivery and everything arrived hot and fresh. This has become my go-to food delivery service.</p>
+                <h4>Sarah Johnson</h4><span>Food Enthusiast</span>
+            </div>
+            <div class="testimonial-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Michael Chen">
+                <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="quote">Amazing variety of cuisines and the app is so easy to use. The delivery drivers are always friendly and professional.</p>
+                <h4>Michael Chen</h4><span>Regular Customer</span>
+            </div>
+            <div class="testimonial-card">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150" alt="Emily Rodriguez">
+                <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                <p class="quote">Best food delivery experience I've ever had! The packaging keeps everything intact and the portions are generous.</p>
+                <h4>Emily Rodriguez</h4><span>Verified Buyer</span>
+            </div>
+        </div>
+        <div class="slider-controls">
+            <button class="slider-btn" id="prevBtn" aria-label="Previous"><i class="fas fa-arrow-left"></i></button>
+            <button class="slider-btn" id="nextBtn" aria-label="Next"><i class="fas fa-arrow-right"></i></button>
+        </div>
+        <div class="slider-dots" id="sliderDots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section class="contact section" id="contact">
+    <div class="container">
+        <div class="section-title"><h2>Get In Touch</h2><p>Have questions or want to make a reservation? We'd love to hear from you!</p></div>
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p>Reach out to us through any of these channels. We're here to help!</p>
+                <div class="info-item"><i class="fas fa-map-marker-alt"></i><div><h4>Our Location</h4><p>123 Foodie Street, Culinary District<br>New York, NY 10001</p></div></div>
+                <div class="info-item"><i class="fas fa-phone-alt"></i><div><h4>Phone Number</h4><p>+1 (555) 123-4567</p></div></div>
+                <div class="info-item"><i class="fas fa-envelope"></i><div><h4>Email Address</h4><p>hello@cravora.com</p></div></div>
+                <div class="info-item"><i class="fas fa-clock"></i><div><h4>Working Hours</h4><p>Mon – Sun: 10:00 AM – 11:00 PM</p></div></div>
+                <div class="social-links">
+                    <a href="#" class="social-link" data-social="facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link" data-social="instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link" data-social="twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link" data-social="youtube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <form class="contact-form" id="contactForm" novalidate>
+                <h3>Send Us a Message</h3>
+                <div class="form-row">
+                    <div class="form-group"><label for="name">Your Name</label><input type="text" id="name" placeholder="John Doe" required></div>
+                    <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" placeholder="john@example.com" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="phone">Phone Number</label><input type="tel" id="phone" placeholder="+1 (555) 000-0000"></div>
+                    <div class="form-group"><label for="subject">Subject</label>
+                        <select id="subject"><option value="">Select a topic</option><option value="order">Order Inquiry</option><option value="reservation">Table Reservation</option><option value="feedback">Feedback</option><option value="other">Other</option></select>
+                    </div>
+                </div>
+                <div class="form-group form-group-message">
+                    <label for="message">Your Message <span class="message-limit-note">(max 120 words)</span></label>
+                    <textarea id="message" placeholder="How can we help you?" required maxlength="1200"></textarea>
+                    <div class="word-counter" id="messageWordCounter"><span id="messageWordCount">0</span> / 120 words</div>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter">
+    <div class="container">
+        <div class="newsletter-content">
+            <div class="newsletter-text">
+                <h3>Subscribe to Our Newsletter</h3>
+                <p>Get exclusive offers, new menu updates, and food tips delivered to your inbox!</p>
+            </div>
+            <form class="newsletter-form" id="newsletterForm" novalidate>
+                <input type="email" id="newsletterEmail" placeholder="Enter your email address" required>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-about">
+                <a href="#" class="logo">Crav<span>ora</span></a>
+                <p>Delivering happiness one meal at a time. We're passionate about bringing the best food from local restaurants straight to your doorstep.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" data-social="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link" data-social="instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link" data-social="twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-column"><h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li><li><a href="#menu">Menu</a></li><li><a href="#specials">Specials</a></li><li><a href="#about">About Us</a></li><li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column"><h4>Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="#" data-cat="pizza">Pizza</a></li><li><a href="#" data-cat="burger">Burgers</a></li><li><a href="#" data-cat="sushi">Sushi</a></li><li><a href="#" data-cat="pasta">Pasta</a></li><li><a href="#" data-cat="dessert">Desserts</a></li>
+                </ul>
+            </div>
+            <div class="footer-column"><h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#" data-info="FAQ">FAQ</a></li><li><a href="#" data-info="Delivery Info">Delivery Info</a></li><li><a href="#" data-info="Privacy Policy">Privacy Policy</a></li><li><a href="#" data-info="Terms of Service">Terms of Service</a></li><li><a href="#" data-info="Refund Policy">Refund Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="currentYear">2026</span> Cravora. All rights reserved.</p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i><i class="fab fa-cc-apple-pay"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Cart Sidebar -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+        <h3>Your Cart (<span id="cartItemCount">0</span>)</h3>
+        <button class="close-cart" id="closeCart"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-items" id="cartItems">
+        <div class="empty-cart"><i class="fas fa-shopping-basket"></i><p>Your cart is empty</p></div>
+    </div>
+    <div class="cart-footer">
+        <div class="cart-calories" id="cartCalories" style="display:none;">
+            <span><i class="fas fa-fire-flame-curved"></i> Total Calories:</span>
+            <span><strong id="cartTotalCalories">0</strong> kcal</span>
+        </div>
+        <div class="cart-total"><span>Total:</span><span id="cartTotal">₹0</span></div>
+        <button class="btn btn-primary checkout-btn" id="checkoutBtn"><i class="fas fa-lock"></i> Proceed to Checkout</button>
+    </div>
+</aside>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal" role="dialog" aria-modal="true">
+        <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage">Item added to cart!</span></div>
+
+<script>
+/* ==================== COMPREHENSIVE MENU DATA WITH NUTRITION ==================== */
+const menuItems = [
+    /* PIZZA */
+    { id:1, name:"Margherita Pizza", category:"pizza", price:799, oldPrice:null, rating:4.8, reviews:245, image:"https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400", description:"Classic tomato sauce, fresh mozzarella, fresh basil leaves on a thin crispy crust.", badge:"popular", filter:"popular", isVeg:true, nutrition:{calories:285,protein:12,carbs:36,fat:10,fiber:2,sugar:4} },
+    { id:2, name:"BBQ Chicken Pizza", category:"pizza", price:899, oldPrice:null, rating:4.7, reviews:167, image:"https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400", description:"Smoky BBQ sauce, grilled chicken, red onion, cilantro, mozzarella.", badge:"new", filter:"new", isVeg:false, nutrition:{calories:320,protein:22,carbs:38,fat:11,fiber:2,sugar:7} },
+    { id:3, name:"Pepperoni Feast", category:"pizza", price:999, oldPrice:1199, rating:4.9, reviews:312, image:"https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400", description:"Double pepperoni, mozzarella, San Marzano tomatoes, oregano.", badge:"hot", filter:"offers", isVeg:false, nutrition:{calories:355,protein:18,carbs:35,fat:17,fiber:2,sugar:5} },
+    { id:4, name:"Veggie Supreme", category:"pizza", price:849, oldPrice:null, rating:4.5, reviews:134, image:"https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=400", description:"Bell peppers, mushrooms, olives, onions, spinach, mozzarella.", badge:"veg", filter:"popular", isVeg:true, nutrition:{calories:250,protein:10,carbs:37,fat:8,fiber:4,sugar:6} },
+    /* BURGER */
+    { id:5, name:"Double Cheese Burger", category:"burger", price:549, oldPrice:699, rating:4.9, reviews:189, image:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400", description:"Double patty, cheddar, lettuce, tomato, pickles and our secret sauce.", badge:"sale", filter:"offers", isVeg:false, nutrition:{calories:620,protein:38,carbs:42,fat:34,fiber:2,sugar:8} },
+    { id:6, name:"Spicy Chicken Burger", category:"burger", price:449, oldPrice:null, rating:4.6, reviews:143, image:"https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=400", description:"Crispy fried chicken, jalapeños, chipotle mayo, cabbage slaw.", badge:"hot", filter:"popular", isVeg:false, nutrition:{calories:540,protein:30,carbs:48,fat:22,fiber:3,sugar:6} },
+    { id:7, name:"Classic Smash Burger", category:"burger", price:599, oldPrice:null, rating:4.8, reviews:221, image:"https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400", description:"Smashed beef patty, American cheese, caramelized onions, mustard.", badge:"popular", filter:"popular", isVeg:false, nutrition:{calories:580,protein:34,carbs:40,fat:28,fiber:2,sugar:7} },
+    { id:8, name:"Mushroom Swiss Burger", category:"burger", price:649, oldPrice:null, rating:4.4, reviews:97, image:"https://images.unsplash.com/photo-1582196016295-f8c8bd4b3a99?w=400", description:"Beef patty, Swiss cheese, sautéed mushrooms, garlic aioli.", badge:"new", filter:"new", isVeg:false, nutrition:{calories:560,protein:35,carbs:38,fat:26,fiber:2,sugar:5} },
+    /* SUSHI */
+    { id:9, name:"Dragon Roll", category:"sushi", price:1099, oldPrice:null, rating:4.7, reviews:156, image:"https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400", description:"Shrimp tempura, avocado, topped with eel and spicy mayo.", badge:"new", filter:"new", isVeg:false, nutrition:{calories:310,protein:14,carbs:40,fat:11,fiber:2,sugar:4} },
+    { id:10, name:"Salmon Nigiri Set", category:"sushi", price:899, oldPrice:null, rating:4.8, reviews:198, image:"https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=400", description:"Six-piece premium salmon nigiri with wasabi and pickled ginger.", badge:"popular", filter:"popular", isVeg:false, nutrition:{calories:260,protein:18,carbs:34,fat:6,fiber:1,sugar:2} },
+    { id:11, name:"Rainbow Roll", category:"sushi", price:1299, oldPrice:1499, rating:4.9, reviews:274, image:"https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=400", description:"California roll topped with tuna, salmon, yellowtail and avocado.", badge:"sale", filter:"offers", isVeg:false, nutrition:{calories:340,protein:20,carbs:42,fat:10,fiber:2,sugar:3} },
+    { id:12, name:"Veggie Maki Set", category:"sushi", price:799, oldPrice:null, rating:4.5, reviews:88, image:"https://images.unsplash.com/photo-1562802378-063ec186a863?w=400", description:"Cucumber, avocado, pickled daikon, and cream cheese rolls — 8 pieces.", badge:"veg", filter:"popular", isVeg:true, nutrition:{calories:210,protein:5,carbs:38,fat:5,fiber:3,sugar:2} },
+    /* PASTA */
+    { id:13, name:"Creamy Carbonara", category:"pasta", price:799, oldPrice:null, rating:4.6, reviews:178, image:"https://images.unsplash.com/photo-1612874742237-6526221588e3?w=400", description:"Spaghetti, crispy bacon, egg yolk, parmesan and cracked black pepper.", badge:"popular", filter:"popular", isVeg:false, nutrition:{calories:490,protein:22,carbs:58,fat:20,fiber:3,sugar:3} },
+    { id:14, name:"Pesto Genovese", category:"pasta", price:749, oldPrice:null, rating:4.7, reviews:142, image:"https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=400", description:"Linguine with fresh basil pesto, toasted pine nuts, parmesan.", badge:"veg", filter:"popular", isVeg:true, nutrition:{calories:440,protein:14,carbs:56,fat:18,fiber:4,sugar:2} },
+    { id:15, name:"Spicy Arrabbiata", category:"pasta", price:649, oldPrice:799, rating:4.5, reviews:119, image:"https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?w=400", description:"Penne in fiery tomato sauce with garlic, red chilli and fresh parsley.", badge:"sale", filter:"offers", isVeg:true, nutrition:{calories:380,protein:11,carbs:65,fat:8,fiber:5,sugar:8} },
+    { id:16, name:"Truffle Mushroom Pasta", category:"pasta", price:949, oldPrice:null, rating:4.9, reviews:203, image:"https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400", description:"Tagliatelle, wild mushrooms, truffle oil, parmesan shavings.", badge:"new", filter:"new", isVeg:true, nutrition:{calories:460,protein:16,carbs:60,fat:17,fiber:4,sugar:3} },
+    /* DESSERT */
+    { id:17, name:"Chocolate Lava Cake", category:"dessert", price:349, oldPrice:null, rating:4.9, reviews:312, image:"https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=400", description:"Warm chocolate cake with a molten center, served with vanilla ice cream.", badge:"hot", filter:"popular", isVeg:true, nutrition:{calories:380,protein:6,carbs:50,fat:18,fiber:2,sugar:38} },
+    { id:18, name:"New York Cheesecake", category:"dessert", price:299, oldPrice:399, rating:4.7, reviews:224, image:"https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400", description:"Classic NY-style creamy cheesecake with a graham cracker crust.", badge:"sale", filter:"offers", isVeg:true, nutrition:{calories:340,protein:7,carbs:36,fat:19,fiber:1,sugar:26} },
+    { id:19, name:"Tiramisu", category:"dessert", price:329, oldPrice:null, rating:4.8, reviews:187, image:"https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400", description:"Classic Italian dessert with espresso-soaked ladyfingers, mascarpone cream.", badge:"popular", filter:"popular", isVeg:true, nutrition:{calories:320,protein:7,carbs:33,fat:18,fiber:1,sugar:22} },
+    { id:20, name:"Mango Sorbet", category:"dessert", price:249, oldPrice:null, rating:4.6, reviews:98, image:"https://images.unsplash.com/photo-1488900128323-21503983a07e?w=400", description:"Refreshing mango sorbet made with fresh Alphonso mangoes, dairy-free.", badge:"veg", filter:"popular", isVeg:true, nutrition:{calories:140,protein:1,carbs:35,fat:0,fiber:2,sugar:32} },
+    /* DRINKS */
+    { id:21, name:"Tropical Smoothie", category:"drinks", price:279, oldPrice:349, rating:4.5, reviews:98, image:"https://images.unsplash.com/photo-1546173159-315724a31696?w=400", description:"Mango, pineapple, coconut milk and honey blended to perfection.", badge:"sale", filter:"offers", isVeg:true, nutrition:{calories:185,protein:3,carbs:38,fat:4,fiber:3,sugar:28} },
+    { id:22, name:"Cold Brew Coffee", category:"drinks", price:219, oldPrice:null, rating:4.7, reviews:156, image:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400", description:"Slow-steeped cold brew, lightly sweetened with oat milk.", badge:"new", filter:"new", isVeg:true, nutrition:{calories:80,protein:2,carbs:14,fat:2,fiber:0,sugar:10} },
+    { id:23, name:"Fresh Lemonade", category:"drinks", price:199, oldPrice:null, rating:4.6, reviews:134, image:"https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=400", description:"Freshly squeezed lemon juice, mint leaves, sparkling water.", badge:"veg", filter:"popular", isVeg:true, nutrition:{calories:90,protein:0,carbs:24,fat:0,fiber:0,sugar:22} },
+    { id:24, name:"Matcha Latte", category:"drinks", price:249, oldPrice:null, rating:4.8, reviews:178, image:"https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400", description:"Premium ceremonial grade matcha with steamed oat milk.", badge:"popular", filter:"popular", isVeg:true, nutrition:{calories:120,protein:4,carbs:16,fat:4,fiber:1,sugar:12} },
+    /* SALAD */
+    { id:25, name:"Caesar Salad", category:"salad", price:449, oldPrice:null, rating:4.6, reviews:143, image:"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400", description:"Romaine lettuce, parmesan, croutons, classic Caesar dressing.", badge:"popular", filter:"popular", isVeg:true, nutrition:{calories:220,protein:10,carbs:18,fat:12,fiber:3,sugar:2} },
+    { id:26, name:"Greek Salad", category:"salad", price:499, oldPrice:null, rating:4.7, reviews:118, image:"https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400", description:"Cucumber, tomato, feta, olives, red onion, olive oil and oregano.", badge:"veg", filter:"popular", isVeg:true, nutrition:{calories:190,protein:7,carbs:14,fat:13,fiber:4,sugar:6} },
+    { id:27, name:"Quinoa Power Bowl", category:"salad", price:649, oldPrice:749, rating:4.8, reviews:167, image:"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400", description:"Quinoa, roasted veggies, chickpeas, tahini dressing, fresh herbs.", badge:"sale", filter:"offers", isVeg:true, nutrition:{calories:310,protein:14,carbs:44,fat:10,fiber:8,sugar:5} },
+    { id:28, name:"Chicken Avocado Salad", category:"salad", price:599, oldPrice:null, rating:4.5, reviews:95, image:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400", description:"Grilled chicken, avocado, cherry tomatoes, mixed greens, lime dressing.", badge:"new", filter:"new", isVeg:false, nutrition:{calories:340,protein:28,carbs:14,fat:19,fiber:6,sugar:3} }
+];
+
+/* ==================== STATE ==================== */
+let cart = [];
+let wishlist = new Set();
+let activeCategory = 'all';
+let activeFilter = 'all';
+let searchQuery = '';
+let currentTestimonial = 0;
+let testimonialTimer = null;
+
+/* ==================== HELPERS ==================== */
+const $ = (id) => document.getElementById(id);
+
+function showToast(message, isError = false) {
+    const toast = $('toast');
+    $('toastMessage').textContent = message;
+    toast.classList.toggle('error', isError);
+    toast.querySelector('i').className = isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+    toast.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => toast.classList.remove('show'), 2600);
+}
+
+function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+/* ==================== NUTRITION HELPERS ==================== */
+function nutritionStrip(n) {
+    return `<div class="nutrition-strip">
+        <span class="nutr-pill cal"><i class="fas fa-fire"></i>${n.calories} kcal</span>
+        <span class="nutr-pill prot"><i class="fas fa-dumbbell"></i>${n.protein}g protein</span>
+        <span class="nutr-pill carb">${n.carbs}g carbs</span>
+        <span class="nutr-pill fat">${n.fat}g fat</span>
+        <span class="nutr-pill fiber">${n.fiber}g fiber</span>
+    </div>`;
+}
+
+function macroBar(n) {
+    const total = n.protein + n.carbs + n.fat;
+    if (total === 0) return '';
+    const pPct = Math.round(n.protein/total*100);
+    const cPct = Math.round(n.carbs/total*100);
+    const fPct = 100 - pPct - cPct;
+    return `<div class="macro-bar-wrap">
+        <div class="macro-bar-label"><span>Protein ${pPct}%</span><span>Carbs ${cPct}%</span><span>Fat ${fPct}%</span></div>
+        <div class="macro-bar-track">
+            <div class="macro-seg prot" style="width:${pPct}%"></div>
+            <div class="macro-seg carb" style="width:${cPct}%"></div>
+            <div class="macro-seg fat" style="width:${fPct}%"></div>
+        </div>
+    </div>`;
+}
+
+function modalNutritionGrid(n) {
+    return `<div class="modal-nutrition">
+        <h4><i class="fas fa-chart-pie"></i> Nutrition (per serving)</h4>
+        <div class="nutrition-grid">
+            <div class="nutr-item cal"><div class="nutr-val">${n.calories}</div><div class="nutr-lbl">Calories</div></div>
+            <div class="nutr-item prot"><div class="nutr-val">${n.protein}g</div><div class="nutr-lbl">Protein</div></div>
+            <div class="nutr-item carb"><div class="nutr-val">${n.carbs}g</div><div class="nutr-lbl">Carbs</div></div>
+            <div class="nutr-item fat"><div class="nutr-val">${n.fat}g</div><div class="nutr-lbl">Fat</div></div>
+            <div class="nutr-item fiber"><div class="nutr-val">${n.fiber}g</div><div class="nutr-lbl">Fiber</div></div>
+            <div class="nutr-item sugar"><div class="nutr-val">${n.sugar}g</div><div class="nutr-lbl">Sugar</div></div>
+        </div>
+    </div>`;
+}
+
+/* ==================== RENDER MENU ==================== */
+function renderMenu() {
+    const grid = $('menuGrid');
+    const search = searchQuery.toLowerCase();
+
+    const filtered = menuItems.filter(item => {
+        const matchCat = activeCategory === 'all' || item.category === activeCategory;
+        const matchFilter = activeFilter === 'all'
+            || (activeFilter === 'veg' ? item.isVeg : item.filter === activeFilter);
+        const matchSearch = !search
+            || item.name.toLowerCase().includes(search)
+            || item.description.toLowerCase().includes(search)
+            || item.category.toLowerCase().includes(search);
+        return matchCat && matchFilter && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+        grid.innerHTML = `<div id="menuEmpty"><i class="fas fa-search"></i><p>No dishes match your selection. Try a different combination.</p></div>`;
+        return;
+    }
+
+    grid.innerHTML = filtered.map(item => {
+        const oldPriceHtml = item.oldPrice ? `<span class="old-price">₹${item.oldPrice.toFixed(0)}</span>` : '';
+        const isWished = wishlist.has(item.id);
+        return `
+        <article class="menu-card" data-id="${item.id}" tabindex="0" role="button" aria-label="View ${item.name}">
+            <div class="menu-card-image">
+                <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'">
+                <span class="menu-badge ${item.badge}">${item.badge.toUpperCase()}</span>
+                <button class="wishlist-btn ${isWished?'active':''}" data-wishlist="${item.id}" aria-label="${isWished?'Remove from':'Add to'} wishlist">
+                    <i class="${isWished?'fas':'far'} fa-heart"></i>
+                </button>
+            </div>
+            <div class="menu-card-content">
+                <div class="menu-card-header">
+                    <h3>${item.name}</h3>
+                    <div class="menu-rating"><i class="fas fa-star"></i><span>${item.rating} (${item.reviews})</span></div>
+                </div>
+                <p class="desc">${item.description}</p>
+                ${nutritionStrip(item.nutrition)}
+                ${macroBar(item.nutrition)}
+                <div class="menu-card-footer">
+                    <div class="menu-price">₹${item.price.toFixed(0)}${oldPriceHtml}</div>
+                    <button class="add-to-cart" data-add="${item.id}" aria-label="Add ${item.name} to cart">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </article>`;
+    }).join('');
+}
+
+/* ==================== CART ==================== */
+function addToCart(id) {
+    const item = menuItems.find(i => i.id === id);
+    if (!item) return;
+    const ex = cart.find(c => c.id === id);
+    if (ex) ex.qty++;
+    else cart.push({...item, qty:1});
+    updateCartUI();
+    const cc = $('cartCount');
+    cc.classList.remove('bump');
+    void cc.offsetWidth;
+    cc.classList.add('bump');
+    const calInfo = (item.nutrition && item.nutrition.calories) ? ` (${item.nutrition.calories} kcal)` : '';
+    showToast(`${item.name}${calInfo} added to cart!`);
+}
+
+function removeFromCart(id) {
+    cart = cart.filter(c => c.id !== id);
+    updateCartUI();
+    showToast('Item removed from cart');
+}
+
+function changeQty(id, delta) {
+    const item = cart.find(c => c.id === id);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) removeFromCart(id);
+    else updateCartUI();
+}
+
+function updateCartUI() {
+    const totalItems = cart.reduce((s,c) => s+c.qty, 0);
+    const totalPrice = cart.reduce((s,c) => s+c.qty*c.price, 0);
+    const totalCalories = cart.reduce((s,c) => {
+        const cal = (c.nutrition && c.nutrition.calories) || 0;
+        return s + cal * c.qty;
+    }, 0);
+    $('cartCount').textContent = totalItems;
+    $('cartItemCount').textContent = totalItems;
+    $('cartTotal').textContent = `₹${totalPrice.toFixed(0)}`;
+
+    const calorieRow = $('cartCalories');
+    const calorieEl  = $('cartTotalCalories');
+    if (calorieRow && calorieEl) {
+        if (totalCalories > 0) {
+            calorieRow.style.display = 'flex';
+            calorieEl.textContent = Math.round(totalCalories).toLocaleString();
+        } else {
+            calorieRow.style.display = 'none';
+        }
+    }
+
+    const ci = $('cartItems');
+    if (!cart.length) {
+        ci.innerHTML = `<div class="empty-cart"><i class="fas fa-shopping-basket"></i><p>Your cart is empty</p></div>`;
+        return;
+    }
+    ci.innerHTML = cart.map(item => {
+        const itemCal = (item.nutrition && item.nutrition.calories) || 0;
+        const calorieLine = itemCal > 0
+            ? `<div class="cart-item-calories"><i class="fas fa-fire-flame-curved"></i> ${itemCal} kcal × ${item.qty} = ${Math.round(itemCal * item.qty)} kcal</div>`
+            : '';
+        return `
+        <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-item-details">
+                <h4>${item.name}</h4>
+                <div class="price">₹${(item.price*item.qty).toFixed(0)}</div>
+                ${calorieLine}
+                <div class="cart-item-quantity">
+                    <button class="qty-btn" data-qty-dec="${item.id}"><i class="fas fa-minus"></i></button>
+                    <span>${item.qty}</span>
+                    <button class="qty-btn" data-qty-inc="${item.id}"><i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+            <button class="remove-item" data-remove="${item.id}"><i class="fas fa-trash"></i></button>
+        </div>`;
+    }).join('');
+}
+
+function openCart() {
+    $('cartSidebar').classList.add('active');
+    $('cartOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCartFn() {
+    $('cartSidebar').classList.remove('active');
+    $('cartOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+/* ==================== WISHLIST ==================== */
+function toggleWishlist(id) {
+    const item = menuItems.find(i => i.id === id);
+    if (wishlist.has(id)) { wishlist.delete(id); showToast(`${item.name} removed from wishlist`); }
+    else { wishlist.add(id); showToast(`${item.name} added to wishlist!`); }
+    const btn = document.querySelector(`[data-wishlist="${id}"]`);
+    if (btn) {
+        const active = wishlist.has(id);
+        btn.classList.toggle('active', active);
+        btn.querySelector('i').className = `${active?'fas':'far'} fa-heart`;
+    }
+}
+
+/* ==================== MODAL ==================== */
+function openModal(id) {
+    const item = menuItems.find(i => i.id === id);
+    if (!item) return;
+    $('modalBody').innerHTML = `
+        <img src="${item.image}" alt="${item.name}">
+        <h3>${item.name}</h3>
+        <div class="modal-price">₹${item.price.toFixed(0)} ${item.oldPrice ? `<span style="font-size:0.85rem;color:var(--gray);text-decoration:line-through;margin-left:8px;">₹${item.oldPrice.toFixed(0)}</span>` : ''}</div>
+        <div class="menu-rating" style="margin-bottom:12px;"><i class="fas fa-star" style="color:#f39c12"></i><span style="color:var(--gray);"> ${item.rating} (${item.reviews} reviews)</span>${item.isVeg ? ' <span style="color:#27ae60;font-size:0.82rem;font-weight:600;"><i class="fas fa-leaf"></i> Vegetarian</span>' : ''}</div>
+        <p class="modal-desc">${item.description}</p>
+        ${modalNutritionGrid(item.nutrition)}
+        <button class="btn btn-primary" data-modal-add="${item.id}"><i class="fas fa-shopping-cart"></i> Add to Cart</button>`;
+    $('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    $('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+/* ==================== TESTIMONIALS ==================== */
+const testimonialCards = document.querySelectorAll('.testimonial-card');
+const sliderDots = document.querySelectorAll('.dot');
+
+function showTestimonial(idx) {
+    testimonialCards.forEach((c,i) => c.classList.toggle('active', i===idx));
+    sliderDots.forEach((d,i) => d.classList.toggle('active', i===idx));
+    currentTestimonial = idx;
+}
+function nextTestimonial() { showTestimonial((currentTestimonial+1)%testimonialCards.length); }
+function prevTestimonial() { showTestimonial((currentTestimonial-1+testimonialCards.length)%testimonialCards.length); }
+function startAutoplay() { testimonialTimer = setInterval(nextTestimonial, 6000); }
+function stopAutoplay() { clearInterval(testimonialTimer); }
+
+/* ==================== COUNTDOWN ==================== */
+function startCountdown() {
+    function update() {
+        const now = new Date();
+        const tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate()+1); tomorrow.setHours(0,0,0,0);
+        const diff = tomorrow - now;
+        const h = Math.floor(diff/3600000);
+        const m = Math.floor((diff%3600000)/60000);
+        const s = Math.floor((diff%60000)/1000);
+        $('hours').textContent = String(h).padStart(2,'0');
+        $('minutes').textContent = String(m).padStart(2,'0');
+        $('seconds').textContent = String(s).padStart(2,'0');
+    }
+    update(); setInterval(update, 1000);
+}
+
+/* ==================== COUNTER ANIMATION ==================== */
+function animateCounters() {
+    document.querySelectorAll('.stat h3').forEach(counter => {
+        const target = parseFloat(counter.dataset.target);
+        const isDecimal = counter.dataset.decimal === 'true';
+        const startTime = performance.now();
+        function tick(now) {
+            const progress = Math.min((now - startTime)/1500, 1);
+            const eased = 1 - Math.pow(1-progress, 3);
+            const val = target * eased;
+            if (isDecimal) counter.textContent = val.toFixed(1);
+            else if (target >= 1000) counter.textContent = Math.floor(val/1000)+'K+';
+            else counter.textContent = Math.floor(val)+'+';
+            if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+    });
+}
+
+/* ==================== SCROLL REVEAL ==================== */
+function setupScrollReveal() {
+    const els = document.querySelectorAll('.section-title, .step-card, .category-card, .info-item, .contact-form');
+    els.forEach(el => el.classList.add('reveal'));
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, {threshold: 0.1});
+    els.forEach(el => obs.observe(el));
+}
+
+/* ==================== EVENTS ==================== */
+function setupEvents() {
+    window.addEventListener('scroll', () => {
+        $('header').classList.toggle('scrolled', window.scrollY > 50);
+        $('backToTop').classList.toggle('active', window.scrollY > 500);
+    });
+
+    $('menuToggle').addEventListener('click', () => {
+        $('menuToggle').classList.toggle('active');
+        $('navLinks').classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => {
+        $('menuToggle').classList.remove('active');
+        $('navLinks').classList.remove('active');
+    }));
+
+    $('cartIcon').addEventListener('click', openCart);
+    $('closeCart').addEventListener('click', closeCartFn);
+    $('cartOverlay').addEventListener('click', closeCartFn);
+
+    $('cartItems').addEventListener('click', e => {
+        const inc = e.target.closest('[data-qty-inc]');
+        const dec = e.target.closest('[data-qty-dec]');
+        const rm = e.target.closest('[data-remove]');
+        if (inc) changeQty(+inc.dataset.qtyInc, 1);
+        if (dec) changeQty(+dec.dataset.qtyDec, -1);
+        if (rm) removeFromCart(+rm.dataset.remove);
+    });
+
+    $('checkoutBtn').addEventListener('click', () => {
+        if (!cart.length) { showToast('Your cart is empty. Add some items first!', true); return; }
+        const total = cart.reduce((s,c) => s+c.qty*c.price, 0);
+        showToast(`Order placed! Total: ₹${total.toFixed(0)} 🎉`);
+        cart = []; updateCartUI(); closeCartFn();
+    });
+
+    /* Menu grid clicks */
+    $('menuGrid').addEventListener('click', e => {
+        const addBtn = e.target.closest('[data-add]');
+        const wishBtn = e.target.closest('[data-wishlist]');
+        if (addBtn) { e.stopPropagation(); addToCart(+addBtn.dataset.add); return; }
+        if (wishBtn) { e.stopPropagation(); toggleWishlist(+wishBtn.dataset.wishlist); return; }
+        const card = e.target.closest('.menu-card');
+        if (card) openModal(+card.dataset.id);
+    });
+
+    $('modalClose').addEventListener('click', closeModal);
+    $('modalOverlay').addEventListener('click', e => { if (e.target === $('modalOverlay')) closeModal(); });
+    $('modalBody').addEventListener('click', e => {
+        const btn = e.target.closest('[data-modal-add]');
+        if (btn) { addToCart(+btn.dataset.modalAdd); closeModal(); }
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            if ($('modalOverlay').classList.contains('active')) closeModal();
+            else if ($('cartSidebar').classList.contains('active')) closeCartFn();
+        }
+    });
+
+    /* Category cards */
+    document.querySelectorAll('.category-card').forEach(card => {
+        const activate = () => {
+            document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+            activeCategory = card.dataset.category;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+            activeFilter = 'all';
+            renderMenu();
+            const rect = $('menu').getBoundingClientRect();
+            if (rect.top < -100 || rect.top > window.innerHeight) $('menu').scrollIntoView({behavior:'smooth'});
+        };
+        card.addEventListener('click', activate);
+        card.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); activate(); } });
+    });
+
+    /* Filter buttons */
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeFilter = btn.dataset.filter;
+            document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+            document.querySelector('.category-card[data-category="all"]').classList.add('active');
+            activeCategory = 'all';
+            renderMenu();
+        });
+    });
+
+    /* Search */
+    let searchTimer;
+    $('searchInput').addEventListener('input', e => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => { searchQuery = e.target.value; renderMenu(); }, 200);
+    });
+
+    /* Testimonials */
+    $('nextBtn').addEventListener('click', () => { nextTestimonial(); stopAutoplay(); startAutoplay(); });
+    $('prevBtn').addEventListener('click', () => { prevTestimonial(); stopAutoplay(); startAutoplay(); });
+    sliderDots.forEach(d => d.addEventListener('click', () => { showTestimonial(+d.dataset.index); stopAutoplay(); startAutoplay(); }));
+    const slider = $('testimonialsSlider');
+    slider.addEventListener('mouseenter', stopAutoplay);
+    slider.addEventListener('mouseleave', startAutoplay);
+
+    $('backToTop').addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+
+    /* Contact form */
+    $('contactForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const name = $('name'), email = $('email'), msg = $('message');
+        let ok = true;
+        [name,email,msg].forEach(f => f.classList.remove('error'));
+        if (!name.value.trim()) { name.classList.add('error'); ok = false; }
+        if (!email.value.trim() || !isValidEmail(email.value)) { email.classList.add('error'); ok = false; }
+        if (!msg.value.trim()) { msg.classList.add('error'); ok = false; }
+        const msgWords = msg.value.trim() ? msg.value.trim().split(/\s+/).length : 0;
+        if (msgWords > 120) { msg.classList.add('error'); showToast('Message must be 120 words or fewer.', true); return; }
+        if (!ok) { showToast('Please fill all required fields.', true); return; }
+        showToast("Message sent! We'll get back to you soon.");
+        $('contactForm').reset();
+        const counterEl = $('messageWordCount');
+        const counterWrap = $('messageWordCounter');
+        if (counterEl) counterEl.textContent = '0';
+        if (counterWrap) counterWrap.classList.remove('warning', 'limit');
+    });
+
+    /* Message word counter — live count, soft-cap at 120 words */
+    (function setupMessageWordCounter() {
+        const messageEl = $('message');
+        const countEl   = $('messageWordCount');
+        const wrapEl    = $('messageWordCounter');
+        if (!messageEl || !countEl || !wrapEl) return;
+        const WORD_LIMIT = 120;
+
+        function countWords(text) {
+            const trimmed = text.trim();
+            return trimmed ? trimmed.split(/\s+/).length : 0;
+        }
+
+        function trimToWordLimit(text, limit) {
+            const words = text.trim().split(/\s+/);
+            if (words.length <= limit) return text;
+            // Preserve trailing space so user can keep typing the next word if they delete one
+            return words.slice(0, limit).join(' ') + ' ';
+        }
+
+        function update() {
+            let words = countWords(messageEl.value);
+            if (words > WORD_LIMIT) {
+                messageEl.value = trimToWordLimit(messageEl.value, WORD_LIMIT);
+                words = WORD_LIMIT;
+            }
+            countEl.textContent = words;
+            wrapEl.classList.remove('warning', 'limit');
+            if (words >= WORD_LIMIT) wrapEl.classList.add('limit');
+            else if (words >= WORD_LIMIT * 0.85) wrapEl.classList.add('warning');
+        }
+
+        messageEl.addEventListener('input', update);
+        messageEl.addEventListener('paste', () => setTimeout(update, 0));
+        update();
+    })();
+
+    /* Newsletter */
+    $('newsletterForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const input = $('newsletterEmail');
+        if (!isValidEmail(input.value)) { input.classList.add('error'); showToast('Enter a valid email address.', true); return; }
+        showToast('Thanks for subscribing! 🎉');
+        $('newsletterForm').reset();
+    });
+
+    $('orderNowBtn').addEventListener('click', () => $('menu').scrollIntoView({behavior:'smooth'}));
+
+    $('specialOrderBtn').addEventListener('click', () => {
+        const special = {id:999,name:'Ultimate Gourmet Burger Combo',price:549,image:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400',qty:1};
+        const ex = cart.find(c=>c.id===999);
+        if (ex) ex.qty++; else cart.push(special);
+        updateCartUI();
+        showToast("Today's Special added to cart!");
+        openCart();
+    });
+
+    document.querySelectorAll('.social-link').forEach(l => l.addEventListener('click', e => {
+        e.preventDefault();
+        const p = l.dataset.social || 'social';
+        showToast(`${p.charAt(0).toUpperCase()+p.slice(1)} — coming soon`);
+    }));
+
+    document.querySelectorAll('[data-cat]').forEach(l => l.addEventListener('click', e => {
+        e.preventDefault();
+        const t = document.querySelector(`.category-card[data-category="${l.dataset.cat}"]`);
+        if (t) t.click();
+        $('menu').scrollIntoView({behavior:'smooth'});
+    }));
+
+    document.querySelectorAll('[data-info]').forEach(l => l.addEventListener('click', e => {
+        e.preventDefault(); showToast(`${l.dataset.info} — coming soon`);
+    }));
+}
+
+/* ==================== AUTH MODAL ==================== */
+(function injectAuth() {
+    const overlay = document.createElement('div');
+    overlay.className = 'auth-overlay'; overlay.id = 'authOverlay';
+    overlay.innerHTML = `
+    <div class="auth-box">
+        <div class="auth-header"><div class="auth-logo">Crav<span>ora</span></div><p>Sign in or create an account to continue</p></div>
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="tabLogin" type="button">Sign In</button>
+            <button class="auth-tab" id="tabRegister" type="button">Create Account</button>
+        </div>
+        <div class="auth-body">
+            <div class="auth-panel active" id="loginPanel">
+                <div class="auth-field"><label for="loginEmail">Email <span class="req">*</span></label><div class="auth-input-wrap"><i class="fas fa-envelope field-icon"></i><input type="email" id="loginEmail" placeholder="you@example.com"></div><div class="auth-err" id="loginEmailErr">Please enter a valid email.</div></div>
+                <div class="auth-field"><label for="loginPassword">Password <span class="req">*</span></label><div class="auth-input-wrap"><i class="fas fa-lock field-icon"></i><input type="password" id="loginPassword" placeholder="Your password"></div><div class="auth-err" id="loginPassErr">Password must be at least 8 characters.</div></div>
+                <button class="auth-submit" id="loginSubmit" type="button">Sign In &rarr;</button>
+                <div class="auth-switch">Don't have an account? <button type="button" id="goToRegister">Create one free</button></div>
+            </div>
+            <div class="auth-panel" id="registerPanel">
+                <div class="auth-field"><label for="regName">Full Name <span class="req">*</span></label><div class="auth-input-wrap"><i class="fas fa-user field-icon"></i><input type="text" id="regName" placeholder="John Doe" maxlength="50"></div><div class="auth-err" id="regNameErr">Name must be 2–50 letters.</div></div>
+                <div class="auth-field"><label for="regEmail">Email <span class="req">*</span></label><div class="auth-input-wrap"><i class="fas fa-envelope field-icon"></i><input type="email" id="regEmail" placeholder="you@example.com"></div><div class="auth-err" id="regEmailErr">Please enter a valid email.</div></div>
+                <div class="auth-field"><label for="regPhone">Mobile <span class="req">*</span></label><div class="auth-input-wrap"><i class="fas fa-phone field-icon"></i><input type="tel" id="regPhone" placeholder="10-digit number" maxlength="10"></div><div class="auth-err" id="regPhoneErr">Enter a valid 10-digit number.</div></div>
+                <div class="auth-field"><label for="regPassword">Password <span class="req">*</span></label><div class="auth-input-wrap"><i class="fas fa-lock field-icon"></i><input type="password" id="regPassword" placeholder="Min 8 characters" maxlength="30"></div><div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div><div class="strength-label" id="strengthLabel"></div><div class="auth-err" id="regPassErr">Password must be 8–30 characters.</div></div>
+                <div class="auth-field"><label for="regConfirm">Confirm Password <span class="req">*</span></label><div class="auth-input-wrap"><i class="fas fa-lock field-icon"></i><input type="password" id="regConfirm" placeholder="Re-enter password" maxlength="30"></div><div class="auth-err" id="regConfirmErr">Passwords do not match.</div></div>
+                <button class="auth-submit" id="registerSubmit" type="button">Create Account &rarr;</button>
+                <div class="auth-switch">Already have an account? <button type="button" id="goToLogin">Sign in</button></div>
+            </div>
+            <button class="auth-skip" id="authSkip" type="button">Skip for now &rsaquo;</button>
+        </div>
+    </div>`;
+    document.body.appendChild(overlay);
+
+    const switchTab = (tab) => {
+        ['login','register'].forEach(t => {
+            document.getElementById(`tab${t.charAt(0).toUpperCase()+t.slice(1)}`).classList.toggle('active', t===tab);
+            document.getElementById(`${t}Panel`).classList.toggle('active', t===tab);
+        });
+        document.querySelectorAll('.auth-err').forEach(e => e.classList.remove('visible'));
+        document.querySelectorAll('.auth-input-wrap input').forEach(i => i.classList.remove('input-error','input-ok'));
+    };
+
+    document.getElementById('tabLogin').addEventListener('click', () => switchTab('login'));
+    document.getElementById('tabRegister').addEventListener('click', () => switchTab('register'));
+    document.getElementById('goToRegister').addEventListener('click', () => switchTab('register'));
+    document.getElementById('goToLogin').addEventListener('click', () => switchTab('login'));
+
+    const closeAuth = () => { overlay.style.opacity='0'; overlay.style.transition='opacity 0.3s'; setTimeout(()=>overlay.remove(),300); };
+    document.getElementById('authSkip').addEventListener('click', closeAuth);
+
+    const isValidN = v => /^[A-Za-z\s]{2,50}$/.test(v.trim());
+    const isValidP = v => /^\d{10}$/.test(v.trim());
+    const setErr = (inp, errEl, show) => { inp.classList.toggle('input-error',show); inp.classList.toggle('input-ok',!show&&inp.value.length>0); errEl.classList.toggle('visible',show); };
+
+    document.getElementById('regPhone').addEventListener('input', function(){ this.value=this.value.replace(/\D/g,'').slice(0,10); });
+    document.getElementById('regPassword').addEventListener('input', function(){
+        const v=this.value,fill=document.getElementById('strengthFill'),label=document.getElementById('strengthLabel');
+        let sc=0; if(v.length>=8)sc++; if(v.length>=12)sc++; if(/[0-9]/.test(v))sc++; if(/[^A-Za-z0-9]/.test(v))sc++; if(/[A-Z]/.test(v)&&/[a-z]/.test(v))sc++;
+        const lvls=[{w:'0%',bg:'#e0e0e0',t:'',c:'#b2bec3'},{w:'25%',bg:'#e74c3c',t:'Weak',c:'#e74c3c'},{w:'50%',bg:'#f39c12',t:'Fair',c:'#f39c12'},{w:'75%',bg:'#00b894',t:'Good',c:'#00b894'},{w:'100%',bg:'#00b894',t:'Strong ✓',c:'#00b894'}];
+        const lvl=v.length===0?lvls[0]:sc<=1?lvls[1]:sc<=2?lvls[2]:sc<=3?lvls[3]:lvls[4];
+        fill.style.width=lvl.w; fill.style.background=lvl.bg; label.textContent=lvl.t; label.style.color=lvl.c;
+    });
+
+    document.getElementById('loginSubmit').addEventListener('click', function(){
+        const em=document.getElementById('loginEmail'),pw=document.getElementById('loginPassword');
+        let ok=true;
+        setErr(em,document.getElementById('loginEmailErr'),!isValidEmail(em.value)); if(!isValidEmail(em.value))ok=false;
+        setErr(pw,document.getElementById('loginPassErr'),pw.value.length<8); if(pw.value.length<8)ok=false;
+        if(ok){closeAuth();showToast('Welcome back! You are now signed in.');}
+    });
+
+    document.getElementById('registerSubmit').addEventListener('click', function(){
+        const nm=document.getElementById('regName'),em=document.getElementById('regEmail'),ph=document.getElementById('regPhone'),pw=document.getElementById('regPassword'),cf=document.getElementById('regConfirm');
+        let ok=true;
+        setErr(nm,document.getElementById('regNameErr'),!isValidN(nm.value)); if(!isValidN(nm.value))ok=false;
+        setErr(em,document.getElementById('regEmailErr'),!isValidEmail(em.value)); if(!isValidEmail(em.value))ok=false;
+        setErr(ph,document.getElementById('regPhoneErr'),!isValidP(ph.value)); if(!isValidP(ph.value))ok=false;
+        setErr(pw,document.getElementById('regPassErr'),pw.value.length<8||pw.value.length>30); if(pw.value.length<8||pw.value.length>30)ok=false;
+        setErr(cf,document.getElementById('regConfirmErr'),cf.value!==pw.value||!cf.value.length); if(cf.value!==pw.value)ok=false;
+        if(ok){closeAuth();showToast('Account created! Welcome to Cravora 🎉');}
+    });
+})();
+
+/* ==================== DARK MODE TOGGLE ==================== */
+function initDarkMode() {
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const icon = document.getElementById('darkModeIcon');
+    if (!toggleBtn) return;
+
+    // Restore saved preference
+    if (localStorage.getItem('cravora-dark') === 'true') {
+        document.body.classList.add('dark-mode');
+        if (icon) { icon.classList.remove('fa-moon'); icon.classList.add('fa-sun'); }
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark-mode');
+        if (icon) {
+            icon.classList.toggle('fa-moon', !isDark);
+            icon.classList.toggle('fa-sun', isDark);
+        }
+        localStorage.setItem('cravora-dark', isDark);
+    });
+}
+
+/* ==================== INIT ==================== */
+document.addEventListener('DOMContentLoaded', () => {
+    $('currentYear').textContent = new Date().getFullYear();
+
+    /* Simulate API load with slight delay for UX */
+    setTimeout(() => { renderMenu(); }, 800);
+
+    setupEvents();
+    startCountdown();
+    startAutoplay();
+    setupScrollReveal();
+    initDarkMode();
+
+    /* Counter animation */
+    const statsEl = document.querySelector('.hero-stats');
+    if (statsEl) {
+        new IntersectionObserver((entries, obs) => {
+            entries.forEach(e => { if(e.isIntersecting){ animateCounters(); obs.disconnect(); } });
+        }, {threshold:0.3}).observe(statsEl);
+    }
+});
+
+/* ==================== SUBTLE ANIMATED BACKGROUND ==================== */
+(function initSubtleBg() {
+    const isDark = () => document.body.classList.contains('dark-mode');
+
+    /* ---- Soft floating orbs ---- */
+    const ORB_COUNT = 8;
+    const orbs = [];
+
+    function rand(a, b) { return Math.random() * (b - a) + a; }
+
+    for (let i = 0; i < ORB_COUNT; i++) {
+        const el = document.createElement('div');
+        el.className = 'glow-ring';
+        const size = rand(180, 420);
+        el.style.cssText = `
+            width:${size}px; height:${size}px;
+            left:${rand(0,100)}vw; top:${rand(0,100)}vh;
+            transform: translate(-50%,-50%);
+        `;
+        document.body.appendChild(el);
+        orbs.push({
+            el,
+            phase: rand(0, Math.PI * 2),
+            speed: rand(0.0003, 0.0007),
+            driftX: rand(-0.003, 0.003),
+            driftY: rand(-0.002, 0.002),
+            x: rand(0, 100),
+            y: rand(0, 100),
+        });
+    }
+
+    /* ---- Small drifting dots ---- */
+    const DOT_COUNT = 22;
+    const dots = [];
+
+    for (let i = 0; i < DOT_COUNT; i++) {
+        const el = document.createElement('div');
+        el.className = 'food-particle';
+        const size = rand(3, 7);
+        el.style.cssText = `
+            width:${size}px; height:${size}px;
+            border-radius:50%;
+            left:${rand(0,100)}vw; top:${rand(0,100)}vh;
+        `;
+        document.body.appendChild(el);
+        dots.push({
+            el,
+            x: rand(0, 100),
+            y: rand(0, 100),
+            vx: rand(-0.003, 0.003),
+            vy: rand(-0.003, 0.003),
+            phase: rand(0, Math.PI * 2),
+            speed: rand(0.0008, 0.0018),
+        });
+    }
+
+    function animate(now) {
+        const dark = isDark();
+        const primaryOrb  = dark ? 'rgba(255,107,53,' : 'rgba(255,107,53,';
+        const dotColor    = dark ? `rgba(255,107,53,0.18)` : `rgba(255,107,53,0.12)`;
+
+        /* orbs */
+        orbs.forEach(o => {
+            const pulse = 0.5 + 0.5 * Math.sin(now * o.speed + o.phase);
+            const alpha = dark ? pulse * 0.07 : pulse * 0.045;
+            o.x += o.driftX;
+            o.y += o.driftY;
+            if (o.x < -10) o.x = 110;
+            if (o.x > 110) o.x = -10;
+            if (o.y < -10) o.y = 110;
+            if (o.y > 110) o.y = -10;
+            o.el.style.left = o.x + 'vw';
+            o.el.style.top  = o.y + 'vh';
+            o.el.style.background = `radial-gradient(circle, ${primaryOrb}${alpha.toFixed(3)}) 0%, transparent 70%)`;
+            o.el.style.transform = `translate(-50%,-50%) scale(${0.8 + pulse * 0.4})`;
+        });
+
+        /* dots */
+        dots.forEach(d => {
+            const pulse = 0.5 + 0.5 * Math.sin(now * d.speed + d.phase);
+            d.x += d.vx;
+            d.y += d.vy;
+            if (d.x < -5) d.x = 105;
+            if (d.x > 105) d.x = -5;
+            if (d.y < -5) d.y = 105;
+            if (d.y > 105) d.y = -5;
+            d.el.style.left    = d.x + 'vw';
+            d.el.style.top     = d.y + 'vh';
+            d.el.style.opacity = (dark ? 0.12 : 0.08) + pulse * 0.1;
+            d.el.style.background = dotColor;
+            d.el.style.transform = `scale(${0.7 + pulse * 0.6})`;
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+})();
+
+/* ============================================================
+   BUILD YOUR MEAL — Salad & Pizza Builder
+   Powered by USDA FoodData Central API
+   ============================================================ */
+(function buildYourMealModule() {
+
+    const USDA_API_KEY = 'DEMO_KEY';
+    const USDA_BASE = 'https://api.nal.usda.gov/fdc/v1/foods/search';
+    const nutritionCache = new Map();
+
+    const SALAD_CONFIG = {
+        title: 'Custom Salad Bowl',
+        subtitle: 'Pick your ingredients — nutrition updates live',
+        basePrice: 199,
+        steps: [
+            { id: 'base', label: 'Base', hint: 'Pick 1', mode: 'single', options: [
+                { id: 'romaine',  label: 'Romaine Lettuce', query: 'romaine lettuce raw',  price: 30, portion: 80 },
+                { id: 'spinach',  label: 'Baby Spinach',    query: 'spinach raw',           price: 40, portion: 80 },
+                { id: 'kale',     label: 'Kale',            query: 'kale raw',              price: 50, portion: 80 },
+                { id: 'quinoa',   label: 'Quinoa',          query: 'quinoa cooked',         price: 80, portion: 100 },
+                { id: 'mixgreen', label: 'Mixed Greens',    query: 'mixed salad greens raw', price: 40, portion: 80 }
+            ]},
+            { id: 'protein', label: 'Protein', hint: 'Pick 1', mode: 'single', options: [
+                { id: 'chicken',  label: 'Grilled Chicken', query: 'chicken breast grilled', price: 140, portion: 100 },
+                { id: 'tofu',     label: 'Tofu',            query: 'tofu firm',              price: 110, portion: 100 },
+                { id: 'paneer',   label: 'Paneer',          query: 'paneer cheese',          price: 130, portion: 80  },
+                { id: 'chickpea', label: 'Chickpeas',       query: 'chickpeas cooked',       price: 90,  portion: 80  },
+                { id: 'egg',      label: 'Boiled Egg',      query: 'egg boiled',             price: 60,  portion: 100 },
+                { id: 'shrimp',   label: 'Shrimp',          query: 'shrimp cooked',          price: 180, portion: 80  }
+            ]},
+            { id: 'veggies', label: 'Veggies', hint: 'Pick any', mode: 'multi', options: [
+                { id: 'tomato',   label: 'Cherry Tomato',   query: 'cherry tomatoes raw', price: 25, portion: 50 },
+                { id: 'cucumber', label: 'Cucumber',        query: 'cucumber raw',        price: 20, portion: 50 },
+                { id: 'carrot',   label: 'Carrot',          query: 'carrot raw',          price: 25, portion: 50 },
+                { id: 'onion',    label: 'Red Onion',       query: 'red onion raw',       price: 20, portion: 30 },
+                { id: 'olives',   label: 'Olives',          query: 'olives black',        price: 45, portion: 30 },
+                { id: 'corn',     label: 'Sweet Corn',      query: 'corn sweet yellow cooked', price: 35, portion: 50 },
+                { id: 'avocado',  label: 'Avocado',         query: 'avocado raw',         price: 90, portion: 50 },
+                { id: 'pepper',   label: 'Bell Pepper',     query: 'bell pepper red raw', price: 30, portion: 40 }
+            ]},
+            { id: 'extras', label: 'Toppings', hint: 'Pick any', mode: 'multi', options: [
+                { id: 'feta',      label: 'Feta Cheese',     query: 'feta cheese',           price: 70, portion: 30 },
+                { id: 'nuts',      label: 'Almonds',         query: 'almonds raw',           price: 60, portion: 20 },
+                { id: 'seeds',     label: 'Sunflower Seeds', query: 'sunflower seeds raw',   price: 45, portion: 15 },
+                { id: 'croutons',  label: 'Croutons',        query: 'croutons plain',        price: 35, portion: 20 },
+                { id: 'cranberry', label: 'Cranberries',     query: 'dried cranberries',     price: 40, portion: 20 }
+            ]},
+            { id: 'dressing', label: 'Dressing', hint: 'Pick 1', mode: 'single', options: [
+                { id: 'ranch',    label: 'Ranch',                query: 'ranch dressing',                price: 30, portion: 30 },
+                { id: 'caesar',   label: 'Caesar',               query: 'caesar dressing',               price: 30, portion: 30 },
+                { id: 'olive',    label: 'Olive Oil & Lemon',    query: 'olive oil',                     price: 25, portion: 15 },
+                { id: 'balsamic', label: 'Balsamic Vinaigrette', query: 'balsamic vinaigrette dressing', price: 30, portion: 30 },
+                { id: 'honey',    label: 'Honey Mustard',        query: 'honey mustard dressing',        price: 35, portion: 30 }
+            ]}
+        ]
+    };
+
+    const PIZZA_CONFIG = {
+        title: 'Custom Pizza',
+        subtitle: 'Build your dream slice — USDA nutrition live',
+        basePrice: 299,
+        steps: [
+            { id: 'crust', label: 'Crust', hint: 'Pick 1', mode: 'single', options: [
+                { id: 'thin',    label: 'Thin Crust',           query: 'pizza crust thin',         price: 50,  portion: 80 },
+                { id: 'regular', label: 'Regular Hand-Tossed',  query: 'pizza dough',              price: 70,  portion: 100 },
+                { id: 'cheesy',  label: 'Cheese Burst',         query: 'pizza crust cheese stuffed', price: 130, portion: 110 },
+                { id: 'wheat',   label: 'Whole Wheat',          query: 'whole wheat bread',        price: 80,  portion: 100 }
+            ]},
+            { id: 'sauce', label: 'Sauce', hint: 'Pick 1', mode: 'single', options: [
+                { id: 'tomato', label: 'Classic Tomato', query: 'tomato pizza sauce', price: 20, portion: 60 },
+                { id: 'bbq',    label: 'BBQ',            query: 'barbecue sauce',     price: 35, portion: 50 },
+                { id: 'pesto',  label: 'Pesto',          query: 'pesto sauce',        price: 50, portion: 40 },
+                { id: 'white',  label: 'White Garlic',   query: 'alfredo sauce',      price: 45, portion: 50 }
+            ]},
+            { id: 'cheese', label: 'Cheese', hint: 'Pick 1', mode: 'single', options: [
+                { id: 'mozz',     label: 'Mozzarella',     query: 'mozzarella cheese', price: 80,  portion: 60 },
+                { id: 'cheddar',  label: 'Cheddar Mix',    query: 'cheddar cheese',    price: 90,  portion: 60 },
+                { id: 'parmesan', label: 'Parmesan Blend', query: 'parmesan cheese',   price: 100, portion: 40 },
+                { id: 'vegan',    label: 'Vegan Cheese',   query: 'vegan cheese',      price: 110, portion: 50 }
+            ]},
+            { id: 'veggies', label: 'Veg Toppings', hint: 'Pick any', mode: 'multi', options: [
+                { id: 'mushroom', label: 'Mushroom',         query: 'mushrooms raw',           price: 35, portion: 40 },
+                { id: 'capsicum', label: 'Bell Pepper',      query: 'bell pepper green raw',   price: 30, portion: 40 },
+                { id: 'olives',   label: 'Black Olives',     query: 'olives black',            price: 45, portion: 30 },
+                { id: 'onion',    label: 'Onion',            query: 'onion raw',               price: 20, portion: 30 },
+                { id: 'jalapeno', label: 'Jalapeño',         query: 'jalapeno peppers',        price: 30, portion: 20 },
+                { id: 'tomato',   label: 'Sun-dried Tomato', query: 'sun dried tomato',        price: 50, portion: 25 },
+                { id: 'corn',     label: 'Sweet Corn',       query: 'corn sweet yellow cooked', price: 30, portion: 40 },
+                { id: 'spinach',  label: 'Spinach',          query: 'spinach raw',             price: 30, portion: 30 }
+            ]},
+            { id: 'meat', label: 'Non-Veg Toppings', hint: 'Pick any (optional)', mode: 'multi', options: [
+                { id: 'pepperoni', label: 'Pepperoni',         query: 'pepperoni',             price: 80,  portion: 30 },
+                { id: 'chicken',   label: 'Grilled Chicken',   query: 'chicken breast grilled', price: 90,  portion: 50 },
+                { id: 'sausage',   label: 'Italian Sausage',   query: 'italian sausage cooked', price: 90,  portion: 40 },
+                { id: 'bacon',     label: 'Bacon',             query: 'bacon cooked',          price: 100, portion: 25 },
+                { id: 'ham',       label: 'Ham',               query: 'ham sliced',            price: 85,  portion: 30 }
+            ]},
+            { id: 'extras', label: 'Finishing Touch', hint: 'Pick any', mode: 'multi', options: [
+                { id: 'oregano', label: 'Oregano',        query: 'oregano dried',           price: 0,  portion: 2 },
+                { id: 'chili',   label: 'Chili Flakes',   query: 'red chili pepper flakes', price: 0,  portion: 2 },
+                { id: 'basil',   label: 'Fresh Basil',    query: 'basil fresh',             price: 15, portion: 5 },
+                { id: 'garlic',  label: 'Garlic Drizzle', query: 'garlic raw',              price: 20, portion: 5 }
+            ]}
+        ]
+    };
+
+    async function fetchNutrition(ingredient) {
+        const cacheKey = ingredient.id + '-' + ingredient.query;
+        if (nutritionCache.has(cacheKey)) return nutritionCache.get(cacheKey);
+
+        const url = USDA_BASE + '?api_key=' + USDA_API_KEY +
+            '&query=' + encodeURIComponent(ingredient.query) +
+            '&pageSize=1&dataType=Foundation,SR%20Legacy,Survey%20%28FNDDS%29';
+
+        try {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('USDA HTTP ' + res.status);
+            const data = await res.json();
+            if (!data.foods || data.foods.length === 0) throw new Error('No USDA match');
+
+            const food = data.foods[0];
+            const nutrMap = { 1008: 0, 1003: 0, 1005: 0, 1004: 0, 1079: 0 };
+            (food.foodNutrients || []).forEach(n => {
+                if (n.nutrientId in nutrMap) nutrMap[n.nutrientId] = n.value || 0;
+            });
+            const scale = (ingredient.portion || 100) / 100;
+            const scaled = {
+                calories: nutrMap[1008] * scale,
+                protein:  nutrMap[1003] * scale,
+                carbs:    nutrMap[1005] * scale,
+                fat:      nutrMap[1004] * scale,
+                fiber:    nutrMap[1079] * scale,
+                source:   'usda'
+            };
+            nutritionCache.set(cacheKey, scaled);
+            return scaled;
+        } catch (err) {
+            console.warn('USDA fetch failed for "' + ingredient.query + '":', err.message);
+            const fallback = { calories: 50, protein: 2, carbs: 5, fat: 2, fiber: 1, source: 'estimate' };
+            nutritionCache.set(cacheKey, fallback);
+            return fallback;
+        }
+    }
+
+    let activeConfig = null;
+    let activeType = null;
+    let selections = {};
+    let aggregateNutrition = { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 };
+    let aggregatePrice = 0;
+    let usingFallback = false;
+
+    const overlay    = document.getElementById('builderOverlay');
+    const panel      = document.getElementById('builderPanel');
+    const titleEl    = document.getElementById('builderTitle');
+    const subEl      = document.getElementById('builderSub');
+    const stepsWrap  = document.getElementById('builderSteps');
+    const selectedEl = document.getElementById('builderSelected');
+    const nutrGrid   = document.getElementById('builderNutrGrid');
+    const nutrSource = document.getElementById('builderNutrSource');
+    const priceEl    = document.getElementById('builderPrice');
+    const addBtn     = document.getElementById('builderAddBtn');
+    const resetBtn   = document.getElementById('builderReset');
+    const closeBtn   = document.getElementById('builderClose');
+    const nameInput  = document.getElementById('builderName');
+
+    if (!overlay || !panel) {
+        console.warn('Builder DOM not found — skipping init');
+        return;
+    }
+
+    function openBuilder(type) {
+        activeType = type;
+        activeConfig = (type === 'salad') ? SALAD_CONFIG : PIZZA_CONFIG;
+        selections = {};
+        activeConfig.steps.forEach(s => selections[s.id] = new Set());
+        aggregateNutrition = { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 };
+        aggregatePrice = activeConfig.basePrice;
+        usingFallback = false;
+        if (nameInput) nameInput.value = '';
+
+        titleEl.textContent = activeConfig.title;
+        subEl.textContent   = activeConfig.subtitle;
+        renderSteps();
+        renderSummary();
+
+        overlay.classList.add('active');
+        panel.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeBuilder() {
+        overlay.classList.remove('active');
+        panel.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function renderSteps() {
+        stepsWrap.innerHTML = activeConfig.steps.map((step, i) => `
+            <div class="builder-step" data-step="${step.id}">
+                <div class="builder-step-header">
+                    <span class="builder-step-num">${i + 1}</span>
+                    <h4 class="builder-step-title">${step.label}</h4>
+                    <span class="builder-step-hint">${step.hint}</span>
+                </div>
+                <div class="builder-chips">
+                    ${step.options.map(opt => `
+                        <button type="button" class="builder-chip" data-step-id="${step.id}" data-opt-id="${opt.id}">
+                            <span>${opt.label}</span>
+                            ${opt.price > 0 ? `<span class="chip-price">+₹${opt.price}</span>` : ''}
+                            <span class="chip-check"><i class="fas fa-check"></i></span>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        stepsWrap.querySelectorAll('.builder-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                handleChipToggle(chip.dataset.stepId, chip.dataset.optId, chip);
+            });
+        });
+    }
+
+    function handleChipToggle(stepId, optId, chipEl) {
+        const step = activeConfig.steps.find(s => s.id === stepId);
+        if (!step) return;
+        const selSet = selections[stepId];
+
+        if (step.mode === 'single') {
+            const allChips = stepsWrap.querySelectorAll(`[data-step-id="${stepId}"]`);
+            allChips.forEach(c => c.classList.remove('selected'));
+            if (selSet.has(optId)) {
+                selSet.clear();
+            } else {
+                selSet.clear();
+                selSet.add(optId);
+                chipEl.classList.add('selected');
+            }
+        } else {
+            if (selSet.has(optId)) {
+                selSet.delete(optId);
+                chipEl.classList.remove('selected');
+            } else {
+                selSet.add(optId);
+                chipEl.classList.add('selected');
+            }
+        }
+        recalcAll();
+    }
+
+    async function recalcAll() {
+        aggregatePrice = activeConfig.basePrice;
+        aggregateNutrition = { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 };
+        usingFallback = false;
+
+        const selectedIngredients = [];
+        activeConfig.steps.forEach(step => {
+            step.options.forEach(opt => {
+                if (selections[step.id].has(opt.id)) selectedIngredients.push({ step, opt });
+            });
+        });
+
+        selectedIngredients.forEach(({ opt }) => { aggregatePrice += opt.price; });
+        renderSummary(true);
+
+        if (selectedIngredients.length === 0) {
+            renderSummary(false);
+            return;
+        }
+
+        const results = await Promise.all(
+            selectedIngredients.map(({ opt }) => fetchNutrition(opt))
+        );
+        results.forEach(n => {
+            aggregateNutrition.calories += n.calories;
+            aggregateNutrition.protein  += n.protein;
+            aggregateNutrition.carbs    += n.carbs;
+            aggregateNutrition.fat      += n.fat;
+            aggregateNutrition.fiber    += n.fiber;
+            if (n.source === 'estimate') usingFallback = true;
+        });
+        renderSummary(false);
+    }
+
+    function renderSummary(nutritionLoading = false) {
+        const groups = activeConfig.steps.map(step => {
+            const picked = step.options.filter(o => selections[step.id].has(o.id));
+            if (picked.length === 0) return null;
+            return `<div class="builder-selected-group"><strong>${step.label}</strong><span>${picked.map(p => p.label).join(', ')}</span></div>`;
+        }).filter(Boolean);
+
+        selectedEl.innerHTML = groups.length === 0
+            ? '<p class="builder-empty">No items selected yet.</p>'
+            : groups.join('');
+
+        priceEl.textContent = '₹' + Math.round(aggregatePrice);
+
+        const n = aggregateNutrition;
+        nutrGrid.innerHTML = `
+            <div class="bnutr-pill cal"><span>Calories</span><strong>${Math.round(n.calories)}</strong></div>
+            <div class="bnutr-pill prot"><span>Protein</span><strong>${Math.round(n.protein)}g</strong></div>
+            <div class="bnutr-pill carb"><span>Carbs</span><strong>${Math.round(n.carbs)}g</strong></div>
+            <div class="bnutr-pill fat"><span>Fat</span><strong>${Math.round(n.fat)}g</strong></div>
+            <div class="bnutr-pill fiber"><span>Fiber</span><strong>${Math.round(n.fiber)}g</strong></div>
+        `;
+
+        if (nutritionLoading) {
+            nutrSource.innerHTML = '<i class="fas fa-spinner"></i> fetching USDA…';
+            nutrSource.classList.add('loading');
+        } else {
+            nutrSource.classList.remove('loading');
+            if (usingFallback) {
+                nutrSource.innerHTML = '<i class="fas fa-circle-info"></i> estimated (USDA unavailable)';
+                nutrSource.style.color = 'var(--gray)';
+            } else {
+                nutrSource.innerHTML = '<i class="fas fa-leaf"></i> live USDA data';
+                nutrSource.style.color = '';
+            }
+        }
+
+        const totalPicked = Object.values(selections).reduce((acc, set) => acc + set.size, 0);
+        addBtn.disabled = totalPicked === 0;
+    }
+
+    function addBuiltMealToCart() {
+        const totalPicked = Object.values(selections).reduce((acc, set) => acc + set.size, 0);
+        if (totalPicked === 0) return;
+
+        const cartId = 'custom-' + activeType + '-' + Date.now();
+        const customName = (nameInput && nameInput.value.trim()) ||
+            ('Custom ' + (activeType === 'salad' ? 'Salad Bowl' : 'Pizza'));
+        const ingredientsList = activeConfig.steps
+            .map(step => {
+                const picked = step.options.filter(o => selections[step.id].has(o.id));
+                return picked.length ? step.label + ': ' + picked.map(p => p.label).join(', ') : null;
+            })
+            .filter(Boolean).join(' | ');
+        const image = activeType === 'salad'
+            ? 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400'
+            : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400';
+
+        if (typeof cart !== 'undefined' && Array.isArray(cart)) {
+            cart.push({
+                id: cartId,
+                name: customName,
+                price: Math.round(aggregatePrice),
+                image: image,
+                qty: 1,
+                isCustom: true,
+                description: ingredientsList,
+                nutrition: {
+                    calories: Math.round(aggregateNutrition.calories),
+                    protein:  Math.round(aggregateNutrition.protein),
+                    carbs:    Math.round(aggregateNutrition.carbs),
+                    fat:      Math.round(aggregateNutrition.fat),
+                    fiber:    Math.round(aggregateNutrition.fiber)
+                }
+            });
+            if (typeof updateCartUI === 'function') updateCartUI();
+            const cartCountEl = document.getElementById('cartCount');
+            if (cartCountEl) {
+                cartCountEl.classList.remove('bump');
+                void cartCountEl.offsetWidth;
+                cartCountEl.classList.add('bump');
+            }
+            if (typeof showToast === 'function') showToast(customName + ' added to cart!');
+            closeBuilder();
+            if (typeof openCart === 'function') openCart();
+        } else {
+            alert('Added ' + customName + ' (₹' + Math.round(aggregatePrice) + ') to your order.');
+            closeBuilder();
+        }
+    }
+
+    function initBuilder() {
+        document.querySelectorAll('[data-build-start]').forEach(btn => {
+            btn.addEventListener('click', () => openBuilder(btn.dataset.buildStart));
+        });
+        closeBtn.addEventListener('click', closeBuilder);
+        overlay.addEventListener('click', closeBuilder);
+        resetBtn.addEventListener('click', () => {
+            if (!activeConfig) return;
+            Object.values(selections).forEach(set => set.clear());
+            stepsWrap.querySelectorAll('.builder-chip.selected').forEach(c => c.classList.remove('selected'));
+            if (nameInput) nameInput.value = '';
+            aggregatePrice = activeConfig.basePrice;
+            aggregateNutrition = { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 };
+            renderSummary();
+        });
+        addBtn.addEventListener('click', addBuiltMealToCart);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && panel.classList.contains('active')) closeBuilder();
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initBuilder);
+    } else {
+        initBuilder();
+    }
+})();
+</script>
+</body>
+</html>
